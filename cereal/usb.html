@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/style.css">
+    <title>USB-CEREAL</title>
+</head>
+
+<body>
+    <!-- TODO feat: added tab kind of feature -->
+    <!--     <div class="flex justify-between items-center bg-clr-bg-thr text-clr-txt ">
+        <div class="">
+            <nav>
+                <ul class="flex justify-between text-sm text-center">
+                    <li class="p-3 hover:bg-clr-prim font-bold ">Untitled</li>
+                    <li class="hover:bg-clr-prim p-3 rounded-md w-10">
+                        <a href="#"><img src="img/plus.svg" alt="Settings" /></a>
+                </ul>
+            </nav>
+        </div>
+        <div class="flex">
+            <nav>
+                <ul class="flex">
+                    <li class="hover:bg-clr-prim py-3 px-3 rounded-md w-10">
+                        <a href="#"><img src="img/settings.svg" alt="Settings" /></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div> -->
+
+    <main class="bg-clr-bg-sec h-[calc(100vh-92px)] text-clr-txt text-xs ">
+        <div>
+            <!-- INPUT -->
+            <div class="flex h-8 my-4 mr-2 justify-between">
+                <!-- Dropdown menu for serial ports -->
+                <div id="dropdown" class=" relative flex-none w-[calc(100%-112px)]">
+                    <button id="dropdownButton"
+                        class="mr-1 rounded-sm border-thin border-clr-prim bg-clr-bg-thr p-2 h-[calc(38px-3px)] w-28">
+                        Port
+                    </button>
+                    <div id="dropdownMenu" class=" hidden absolute bg-clr-prim mt-1 rounded-sm w-28 ">
+                        <a href="#" class="block p-2 hover:bg-clr-bg-thr">Port 1</a>
+                        <a href="#" class="block p-2 hover:bg-clr-bg-thr">Port 2</a>
+                        <a href="#" class="block p-2 hover:bg-clr-bg-thr">Port 3</a>
+                    </div>
+                    <!-- Input box to send cmd -->
+                    <input id="inputBox" type="text"
+                        class=" rounded-sm border-thin border-clr-prim bg-clr-bg-thr text-white p-2 h-[calc(38px-2px)] w-[calc(100%-128px)] focus:outline-none "
+                        placeholder="Enter Command">
+                </div>
+
+                <div>
+                    <div id="send">
+                        <button id="sendButton"
+                            class=" bg-clr-accent  text-white font-bold font-sm rounded-sm p-2 h-[calc(38px-2px)] w-28 hover:bg-opacity-95">
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- OUTPUT -->
+        <div class="bg-clr-bg-thr my-3 mr-2 p-2 h-[calc(100vh-150px)] border-thin rounded-sm border-clr-prim">
+            OUTPUT
+        </div>
+    </main>
+
+    <script src="src/script.js"></script>
+</body>
+
+</html>
