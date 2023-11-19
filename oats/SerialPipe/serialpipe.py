@@ -1,23 +1,36 @@
 import serial
-import serial.tools.list_ports
-import json
+import time
 
 
 class SerialPipe:
-    def __init__(self):
-        self.ser = None
+    def __init__(self, port, baudrate):
+        self.ser = serial.Serial(port, baudrate)
 
-    def get_ports_info(self):
-        # Get a list of available serial ports
-        ports = serial.tools.list_ports.comports()
-        # Create a JSON object with the number of ports and their names
-        ports_info = {
-            "number_of_ports": len(ports),
-            "port_names": [port.device for port in ports],
-        }
-        return json.dumps(ports_info, indent=4)  # Return the JSON object as a string
+    def send(self, data):
+        self.ser.write(data.encode())
+        self.ser.flush()  # Flush the buffer
+
+    def receive(self, termination="/n"):
+        data = self.ser.readline()
+        return data.decode()
 
 
 if __name__ == "__main__":
-    sp = SerialPipe()
-    print(sp.get_ports_info())
+    port = "/dev/ttyUSB1"  # Change this to the correct port
+    baudrate = 115200
+
+    sp = SerialPipe(port, baudrate)
+
+    try:
+        while True:
+            sp.send("Hello ESP32!")  # Send a message to ESP32
+            time.sleep(1)  # Wait for a second
+            data = sp.receive()
+            if data:
+                print(f"Received: {data}", end="")
+    except KeyboardInterrupt:
+        print("Program stopped by user.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        sp.ser.close()
