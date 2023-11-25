@@ -21,16 +21,10 @@ function loadContent(page) {
 }
 
 function attachDropdownListener() {
-  const dropdownButton = document.getElementById('dropdownButton');
-  if (dropdownButton) {
-    dropdownButton.addEventListener('click', function () {
-      console.log("Dropdown button clicked");
-      getPortDataFromOatsAgent();
-      document.getElementById('dropdownMenu').classList.toggle('hidden');
-    });
-  } else {
-    console.warn('Dropdown button not found');
-  }
+  document.getElementById('dropdownUSBPort').addEventListener('click', function () {
+    var dropdown = document.getElementById('dropdownUSB');
+    dropdown.classList.toggle('hidden');
+  });
 }
 
 function getPortDataFromOatsAgent() {

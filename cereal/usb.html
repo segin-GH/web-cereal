@@ -71,13 +71,30 @@
             </div>
 
             <div class="bg-clr-bg-thr my-3 mr-2 p-2 h-[calc(100vh-150px)] border-thin w-1/4 rounded-sm border-clr-prim">
-                OUTPUT
+                <button id="dropdownUSBPort" data-dropdown-toggle="dropdownUSB"
+                    class="text-clr-txt bg-clr-bg-prim focus:outline-none w-full font-bold rounded-sm px-5 py-2.5 text-center inline-flex items-center justify-between"
+                    type="button">
+                    Port <svg class="ml-2 w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 4 4 4-4" />
+                    </svg>
+                </button>
+
+                <!-- Dropdown menu -->
+                <div id="dropdownUSB"
+                    class="z-10 mt-2 hidden bg-clr-bg-prim divide-y divide-gray-100 rounded-sm shadow w-full">
+                    <ul class="py-2 text-sm text-clr-txt w-full " aria-labelledby="dropdownUSBPort">
+                        <li class="block px-4 py-2 hover:bg-clr-prim hover:text-white">
+                            PORT 1
+                        </li>
+                        <li class="block px-4 py-2 hover:bg-clr-prim hover:text-white">
+                            PORT 2
+                        </li>
+                    </ul>
+                </div>
             </div>
-            
-            
-
         </div>
-
     </main>
 
     <script src="src/script.js"></script>
