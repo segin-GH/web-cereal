@@ -21,39 +21,51 @@ function loadContent(page) {
 }
 
 function attachDropdownListener() {
-  document.getElementById('dropdownUSBPort').addEventListener('click', function () {
-    var dropdownUSB = document.getElementById('dropdownUSB');
-    dropdownUSB.classList.toggle('hidden');
-  });
-
-  // Event listeners for USB port selections
-  var usbPortItems = document.querySelectorAll('#dropdownUSB li');
-  usbPortItems.forEach(function (item) {
-    item.addEventListener('click', function () {
-      var selectedPort = this.textContent;
-      var buttonUSBPort = document.getElementById('dropdownUSBPort');
-      buttonUSBPort.textContent = selectedPort;
-      buttonUSBPort.appendChild(createDownArrow());
-      toggleDropdown('dropdownUSB');
+  // Check and attach listener for USB Port dropdown
+  var dropdownUSBPort = document.getElementById('dropdownUSBPort');
+  if (dropdownUSBPort) {
+    dropdownUSBPort.addEventListener('click', function () {
+      var dropdownUSB = document.getElementById('dropdownUSB');
+      if (dropdownUSB) {
+        dropdownUSB.classList.toggle('hidden');
+      }
     });
-  });
 
-  document.getElementById('dropdownBaudRate').addEventListener('click', function () {
-    var dropdown = document.getElementById('dropdownBaud');
-    dropdown.classList.toggle('hidden');
-  });
-
-  var baudRateItems = document.querySelectorAll('#dropdownBaud li');
-  baudRateItems.forEach(function (item) {
-    item.addEventListener('click', function () {
-      var selectedBaudRate = this.textContent;
-      var buttonBaudRate = document.getElementById('dropdownBaudRate');
-      buttonBaudRate.textContent = selectedBaudRate;
-      buttonBaudRate.appendChild(createDownArrow());
-      toggleDropdown('dropdownBaud');
+    var usbPortItems = document.querySelectorAll('#dropdownUSB li');
+    usbPortItems.forEach(function (item) {
+      item.addEventListener('click', function () {
+        var selectedPort = this.textContent;
+        dropdownUSBPort.textContent = selectedPort;
+        dropdownUSBPort.appendChild(createDownArrow());
+        if (dropdownUSB) {
+          dropdownUSB.classList.add('hidden');
+        }
+      });
     });
-  });
+  }
 
+  // Check and attach listener for Baud Rate dropdown
+  var dropdownBaudRate = document.getElementById('dropdownBaudRate');
+  if (dropdownBaudRate) {
+    dropdownBaudRate.addEventListener('click', function () {
+      var dropdownBaud = document.getElementById('dropdownBaud');
+      if (dropdownBaud) {
+        dropdownBaud.classList.toggle('hidden');
+      }
+    });
+
+    var baudRateItems = document.querySelectorAll('#dropdownBaud li');
+    baudRateItems.forEach(function (item) {
+      item.addEventListener('click', function () {
+        var selectedBaudRate = this.textContent;
+        dropdownBaudRate.textContent = selectedBaudRate;
+        dropdownBaudRate.appendChild(createDownArrow());
+        if (dropdownBaud) {
+          dropdownBaud.classList.add('hidden');
+        }
+      });
+    });
+  }
   function createDownArrow() {
     var svgNS = "http://www.w3.org/2000/svg";
     var svg = document.createElementNS(svgNS, "svg");
