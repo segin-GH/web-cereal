@@ -70,9 +70,11 @@
                 OUTPUT
             </div>
 
-            <div class="bg-clr-bg-thr my-3 mr-2 p-2 h-[calc(100vh-150px)] border-thin w-1/4 rounded-sm border-clr-prim">
+            <div
+                class="bg-clr-bg-prim my-3 mr-2 p-2 h-[calc(100vh-150px)] border-thin w-1/4 rounded-sm border-clr-prim">
+                <!-- USB Port Dropdown -->
                 <button id="dropdownUSBPort" data-dropdown-toggle="dropdownUSB"
-                    class="text-clr-txt bg-clr-bg-prim focus:outline-none w-full font-bold rounded-sm px-5 py-2.5 text-center inline-flex items-center justify-between"
+                    class="text-clr-txt bg-clr-bg-thr focus:outline-none w-full font-bold rounded-sm px-5 py-2.5 text-center inline-flex items-center justify-between"
                     type="button">
                     Port <svg class="ml-2 w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                         viewBox="0 0 10 6">
@@ -81,15 +83,42 @@
                     </svg>
                 </button>
 
-                <!-- Dropdown menu -->
+                <!-- Dropdown menu for USB Port -->
                 <div id="dropdownUSB"
-                    class="z-10 mt-2 hidden bg-clr-bg-prim divide-y divide-gray-100 rounded-sm shadow w-full">
+                    class="z-10 mt-2 hidden bg-clr-bg-thr divide-y divide-gray-100 rounded-sm shadow w-full">
                     <ul class="py-2 text-sm text-clr-txt w-full " aria-labelledby="dropdownUSBPort">
                         <li class="block px-4 py-2 hover:bg-clr-prim hover:text-white">
                             PORT 1
                         </li>
                         <li class="block px-4 py-2 hover:bg-clr-prim hover:text-white">
                             PORT 2
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Baud Rate Dropdown -->
+                <button id="dropdownBaudRate" data-dropdown-toggle="dropdownBaud"
+                    class="text-clr-txt bg-clr-bg-thr focus:outline-none w-full font-bold rounded-sm px-5 py-2.5 text-center inline-flex items-center justify-between mt-4"
+                    type="button">
+                    Baud Rate <svg class="ml-2 w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 4 4 4-4" />
+                    </svg>
+                </button>
+
+                <!-- Dropdown menu for Baud Rate -->
+                <div id="dropdownBaud"
+                    class="z-10 mt-2 hidden bg-clr-bg-thr divide-y divide-gray-100 rounded-sm shadow w-full">
+                    <ul class="py-2 text-sm text-clr-txt w-full" aria-labelledby="dropdownBaudRate">
+                        <li class="block px-4 py-2 hover:bg-clr-prim hover:text-white">
+                            9600
+                        </li>
+                        <li class="block px-4 py-2 hover:bg-clr-prim hover:text-white">
+                            115200
+                        </li>
+                        <li class="block px-4 py-2 hover:bg-clr-prim hover:text-white">
+                            921600
                         </li>
                     </ul>
                 </div>
