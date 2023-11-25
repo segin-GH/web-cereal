@@ -32,8 +32,9 @@ function attachDropdownListener() {
     item.addEventListener('click', function () {
       var selectedPort = this.textContent;
       var buttonUSBPort = document.getElementById('dropdownUSBPort');
-      buttonUSBPort.textContent = selectedPort; // Update button text
-      buttonUSBPort.appendChild(createDownArrow()); // Add the down arrow again
+      buttonUSBPort.textContent = selectedPort;
+      buttonUSBPort.appendChild(createDownArrow());
+      toggleDropdown('dropdownUSB');
     });
   });
 
@@ -47,8 +48,9 @@ function attachDropdownListener() {
     item.addEventListener('click', function () {
       var selectedBaudRate = this.textContent;
       var buttonBaudRate = document.getElementById('dropdownBaudRate');
-      buttonBaudRate.textContent = selectedBaudRate; // Update button text
-      buttonBaudRate.appendChild(createDownArrow()); // Add the down arrow again
+      buttonBaudRate.textContent = selectedBaudRate;
+      buttonBaudRate.appendChild(createDownArrow());
+      toggleDropdown('dropdownBaud');
     });
   });
 
@@ -69,6 +71,11 @@ function attachDropdownListener() {
 
     svg.appendChild(path);
     return svg;
+  }
+
+  function toggleDropdown(dropdownId) {
+    var dropdown = document.getElementById(dropdownId);
+    dropdown.classList.toggle('hidden');
   }
 
 }
