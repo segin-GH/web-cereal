@@ -122,6 +122,35 @@
                         </li>
                     </ul>
                 </div>
+                <!-- Line Ending Dropdown -->
+                <button id="dropdownLineEnding" data-dropdown-toggle="dropdownLineEnd"
+                    class="text-clr-txt bg-clr-bg-thr focus:outline-none w-full font-bold rounded-sm px-5 py-2.5 text-center inline-flex items-center justify-between mt-4"
+                    type="button">
+                    Line Ending <svg class="ml-2 w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m1 1 4 4 4-4" />
+                    </svg>
+                </button>
+
+                <!-- Dropdown menu for Line Ending -->
+                <div id="dropdownLineEnd"
+                    class="z-10 mt-2 hidden bg-clr-bg-thr divide-y divide-gray-100 rounded-sm shadow w-full">
+                    <ul class="py-2 text-sm text-clr-txt w-full" aria-labelledby="dropdownLineEnding">
+                        <li class="block px-4 py-2 hover:bg-clr-prim hover:text-white">
+                            New Line
+                        </li>
+                        <li class="block px-4 py-2 hover:bg-clr-prim hover:text-white">
+                            No Line Ending
+                        </li>
+                        <li class="block px-4 py-2 hover:bg-clr-prim hover:text-white">
+                            Carriage Return
+                        </li>
+                        <li class="block px-4 py-2 hover:bg-clr-prim hover:text-white">
+                            Both NL & CR
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </main>

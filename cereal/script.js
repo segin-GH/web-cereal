@@ -66,6 +66,22 @@ function attachDropdownListener() {
       });
     });
   }
+  var dropdownLineEnding = document.getElementById('dropdownLineEnding');
+  if (dropdownLineEnding) {
+    dropdownLineEnding.addEventListener('click', function () {
+      toggleDropdown('dropdownLineEnd');
+    });
+
+    var lineEndingItems = document.querySelectorAll('#dropdownLineEnd li');
+    lineEndingItems.forEach(function (item) {
+      item.addEventListener('click', function () {
+        var selectedLineEnding = this.textContent;
+        dropdownLineEnding.textContent = selectedLineEnding;
+        dropdownLineEnding.appendChild(createDownArrow());
+        toggleDropdown('dropdownLineEnd');
+      });
+    });
+  }
   function createDownArrow() {
     var svgNS = "http://www.w3.org/2000/svg";
     var svg = document.createElementNS(svgNS, "svg");
