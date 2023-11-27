@@ -58,10 +58,8 @@
                             <img src="img/settings.svg" alt="Send" width="24" height="24">
                         </button>
                     </div>
-
                 </div>
             </div>
-
         </div>
         </div>
 
@@ -151,6 +149,45 @@
                         </li>
                     </ul>
                 </div>
+
+                <div class="z-10 my-2 mt-7 ">
+                    <!-- Timestamp Toggle Button -->
+                    <div class="">
+                        <label class="relative inline-flex items-center mb-4 cursor-pointer">
+                            <input type="checkbox" id="timestamp" class="sr-only peer">
+                            <div
+                                class="w-9 h-5 bg-gray-200 rounded-full dark:bg-clr-bg-thr peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:bg-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-clr-txt after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-clr-accent">
+                            </div>
+                            <span class="ml-5 text-xs font-bold text-gray-900 dark:text-clr-txt">Timestamp</span>
+                        </label>
+                    </div>
+                    <!-- Auto Scroll Toggle Button -->
+                    <div class=" my-4">
+                        <label class="relative inline-flex items-center cursor-pointer mb-4">
+                            <input type="checkbox" id="autoScroll" class="sr-only peer" checked>
+                            <div
+                                class="w-9 h-5 bg-gray-200 rounded-full dark:bg-clr-bg-thr peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:bg-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-clr-txt after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-clr-accent">
+                            </div>
+                            <span class="ml-5 text-xs font-bold text-gray-900 dark:text-clr-txt">Auto Scroll</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class=" m-4 flex justify-evenly items-center">
+                    <div class="">
+                        <button id="clearButton"
+                            class=" mx text-clr-txt bg-clr-bg-thr border-thin border-clr-prim font-bold font-sm rounded-sm p-2 h-[calc(38px-2px)] w-28 hover:bg-clr-bg-prim  ">
+                            Close
+                        </button>
+                    </div>
+                    <div id="send" class="">
+                        <button id="sendButton"
+                            class=" mx text-clr-txt bg-clr-bg-thr border-thin border-clr-prim font-bold font-sm rounded-sm p-2 h-[calc(38px-2px)] w-28 hover:bg-clr-bg-prim  ">
+                            Connect
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     </main>
