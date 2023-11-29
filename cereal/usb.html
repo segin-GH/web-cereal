@@ -12,54 +12,57 @@
     <!-- TODO feat: added tab kind of feature -->
 
 
-
     <main class=" flex flex-col h-full text-clr-txt text-xs ">
-
-        <div class="flex justify-between items-center bg-clr-bg-thr text-clr-txt h-8 ">
-            <div class="">
-                <nav>
-                    <ul class="flex justify-between text-sm text-center">
-                        <li class="p-3 hover:bg-clr-prim font-bold ">Untitled</li>
-                        <li class="hover:bg-clr-prim p-3 rounded-md w-10">
-                            <a href="#"><img src="img/plus.svg" alt="Settings" /></a>
-                    </ul>
-                </nav>
+        <div class="flex justify-between bg-clr-bg-thr">
+            <div class="flex h-full">
+                <ul class="mx-2 flex  focus:border h-full text-center">
+                    <li class="bg-clr-bg-sec w-20 shadow-inner border-clr-accent border-t-2">
+                        <a href="#"
+                            class="flex items-center justify-center h-full w-full text-clr-txt :border-t-2 border-t-clr-accent">Tab1</a>
+                    </li>
+                    <li class="bg-clr-bg-thr w-20">
+                        <a href="#"
+                            class="flex items-center justify-center h-full w-full text-clr-txt border-x-thin  border-x-clr-prim">Tab2</a>
+                    </li>
+                    <li class="hover:bg-clr-bg-thr p-3 rounded-full mx-2 w-10">
+                        <a href="#" class="flex items-center justify-center h-full w-full">
+                            <img src="img/plus.svg" alt="Settings" />
+                        </a>
+                    </li>
+                </ul>
             </div>
-            <div class="flex">
-                <nav>
-                    <ul class="flex">
-                        <li class="hover:bg-clr-prim p-2 rounded-md w-10">
-                            <a href="#"><img src="img/settings.svg" alt="Settings" /></a>
-                        </li>
-                    </ul>
-                </nav>
+            <div>
+                <ul>
+                    <li class="hover:bg-clr-prim p-2 rounded-md w-10">
+                        <a href="#"><img src="img/settings.svg" alt="Settings" /></a>
+                    </li>
+                </ul>
             </div>
         </div>
 
         <div class="flex flex-grow justify-between">
             <div class="flex flex-col justify-between w-full">
-                <!-- INPUT AND OUTPUT -->
-                <div class="bg-clr-bg-thr p-2 flex-grow w-full border-thin rounded-sm border-clr-prim">
+                <!-- OUTPUT -->
+                <div class="bg-clr-bg-thr m-2 p-2 flex-grow w- border-thin rounded-sm border-clr-prim">
                     OUTPUT
                 </div>
-
+                <!-- INPUT -->
                 <div class="flex justify-between items-center">
                     <!-- Input box and Send button container -->
-                    <div class="relative flex w-full">
+                    <div class="m-2 mt-0 relative flex w-full">
                         <input id="inputBox" type="text"
-                            class="rounded-sm border-thin border-clr-prim bg-clr-bg-thr text-white p-2 h-[calc(45px-1px)] w-full focus:outline-none"
+                            class="rounded-sm border-thin border-clr-prim bg-clr-bg-thr text-clr-txt p-2 h-[calc(45px-1px)] w-full focus:outline-none"
                             placeholder="Enter Command">
                         <!-- Send Button -->
                         <button id="sendButton"
-                            class="absolute p-3 right-0 m-1 bg-clr-prim text-white font-bold text-sm rounded-sm  h-[calc(37px-1px)] w-10 hover:bg-clr-accent hover:transition-shadow flex items-center justify-center">
+                            class="absolute p-3 right-0 m-1 bg-clr-prim text-white font-bold text-sm rounded-sm  h-[calc(37px-1px)] w-10 hover:bg-clr-accent  flex items-center justify-center">
                             <img src="img/send.svg" alt="Send" width="24" height="24">
                         </button>
                     </div>
-                    <!-- Other buttons -->
                 </div>
             </div>
 
-            <div class=" bg-clr-bg-prim  p-2  border-thin w-1/4 h-full rounded-sm border-clr-prim">
+            <div class=" bg-clr-bg-prim  p-2  ml-0  border-thin w-1/4 h-full  border-clr-prim">
                 <!-- USB Port Dropdown -->
                 <button id="dropdownUSBPort" data-dropdown-toggle="dropdownUSB"
                     class="text-clr-txt bg-clr-bg-thr focus:outline-none w-full font-bold rounded-sm px-5 py-2.5 text-center inline-flex items-center justify-between"
@@ -110,6 +113,7 @@
                         </li>
                     </ul>
                 </div>
+
                 <!-- Line Ending Dropdown -->
                 <button id="dropdownLineEnding" data-dropdown-toggle="dropdownLineEnd"
                     class="text-clr-txt bg-clr-bg-thr focus:outline-none w-full font-bold rounded-sm px-5 py-2.5 text-center inline-flex items-center justify-between mt-4"
@@ -140,6 +144,7 @@
                     </ul>
                 </div>
 
+                <!-- Toggle buttons -->
                 <div class="z-10 my-2 mt-7 ">
                     <!-- Timestamp Toggle Button -->
                     <div class="">
@@ -179,7 +184,6 @@
                 </div>
             </div>
         </div>
-    </main>
     </main>
 
     <script src="src/script.js"></script>
