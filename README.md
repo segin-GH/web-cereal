@@ -4,6 +4,8 @@
 Web Cereal get your cereal in web fast and light weight.
 
 ### SETUP ( DEV )
+Node required `v20.10.0` [install node](https://github.com/nodesource/distributions).
+
 1. Move into cereal folder.
 ```
 cd cereal
