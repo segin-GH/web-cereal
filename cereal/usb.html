@@ -13,7 +13,7 @@
 
 
 
-    <main class="bg-slate-900 h-[calc(100%-35px)] text-clr-txt text-xs ">
+    <main class=" flex flex-col h-full text-clr-txt text-xs ">
 
         <div class="flex justify-between items-center bg-clr-bg-thr text-clr-txt h-8 ">
             <div class="">
@@ -36,13 +36,14 @@
             </div>
         </div>
 
-        <div class="flex justify-between bg-orange-700 ">
-            <div class="w-full bg-slate-600">
+        <div class="flex flex-grow justify-between">
+            <div class="flex flex-col justify-between w-full">
                 <!-- INPUT AND OUTPUT -->
-                <div class="bg-clr-bg-thr p-2 h-full w-full border-thin rounded-sm border-clr-prim ">
+                <div class="bg-clr-bg-thr p-2 flex-grow w-full border-thin rounded-sm border-clr-prim">
                     OUTPUT
                 </div>
-                <div class="flex justify-between items-center bg-black  ">
+
+                <div class="flex justify-between items-center">
                     <!-- Input box and Send button container -->
                     <div class="relative flex w-full">
                         <input id="inputBox" type="text"
@@ -55,13 +56,6 @@
                         </button>
                     </div>
                     <!-- Other buttons -->
-                    <div class="flex justify-around ml-2">
-                        <!-- Clear Button -->
-                        <button id="clearButton"
-                            class=" bg-clr-accent pl-2 h-[calc(45px-2px)] w-11 hover:bg-black rounded-sm">
-                            <img src="img/eraser.svg" alt="Clear" width="24" height="24">
-                        </button>
-                    </div>
                 </div>
             </div>
 
@@ -169,7 +163,7 @@
                     </div>
                 </div>
 
-                <div class=" m-4 flex justify-evenly items-center">
+                <div class=" m-4 flex flex-wrap flex-shrink justify-evenly items-center">
                     <div class="">
                         <button id="clearButton"
                             class=" mx text-clr-txt bg-clr-bg-thr border-thin border-clr-prim font-bold font-sm rounded-sm p-2 h-[calc(38px-2px)] w-28 hover:bg-clr-bg-prim  ">
