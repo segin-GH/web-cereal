@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css">
   <title>Web Cereal</title>
+
 </head>
 
 <body class="bg-clr-bg-sec ">
@@ -24,44 +25,37 @@
   <!-- TODO fix: make the courser pointer when in nav -->
   <main class="flex">
     <nav>
-      <ul class="flex-col  text-clr-text font-bold bg-clr-bg-prim w-12 h-[calc(100vh-48px)]">
-        <li class="w-12 p-4  hover:bg-clr-prim active:border-2 active:border-clr-accent"
-          onclick="loadContent('usb'); return false;">
+      <ul class="flex-col text-clr-text font-bold bg-clr-bg-prim w-12 h-[calc(100vh-48px)]">
+        <li class="nav-item w-12 p-4 hover:bg-clr-prim active:border-2 active:border-clr-accent" data-page="usb">
           <a href="#">
             <img src="img/usb.svg" alt="usb" />
           </a>
         </li>
-
-        <li class="w-12 p-4  hover:bg-clr-prim active:border-2 active:border-clr-accent"
-          onclick="loadContent('wifi'); return false;">
+        <li class="nav-item w-12 p-4 hover:bg-clr-prim active:border-2 active:border-clr-accent" data-page="wifi">
           <a href="#">
             <img src="img/wifi.svg" alt="wifi" />
           </a>
         </li>
-
-        <li class="w-12 p-4  hover:bg-clr-prim active:border-2 active:border-clr-accent"
-          onclick="loadContent('ble'); return false;">
+        <li class="nav-item w-12 p-4 hover:bg-clr-prim active:border-2 active:border-clr-accent" data-page="ble">
           <a href="#">
             <img src="img/ble.svg" alt="ble" />
           </a>
         </li>
-
-        <li class="w-12 p-4  hover:bg-clr-prim active:border-2 active:border-clr-accent"
-          onclick="loadContent('mqtt'); return false;">
+        <li class="nav-item w-12 p-4 hover:bg-clr-prim active:border-2 active:border-clr-accent" data-page="mqtt">
           <a href="#">
             <img src="img/mqtt.svg" alt="mqtt" />
           </a>
         </li>
-
       </ul>
     </nav>
 
-    <div id="content-area" class=" bg-clr-bg-sec w-full">
+    <div id="content-area" class="bg-clr-bg-sec w-full">
       <!-- Content loaded dynamically with AJAX will appear here -->
     </div>
   </main>
 
-  <script src="script.js"></script>
+
+  <script type="module" src="./script.js"></script>
 </body>
 
 </html>
