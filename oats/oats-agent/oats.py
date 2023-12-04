@@ -1,3 +1,5 @@
+#! /usr/bin/python3
+
 from flask import Flask, jsonify
 from flask_cors import CORS
 import json
@@ -6,7 +8,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route("/usb", methods=["GET"])
+@app.route("/usb-port", methods=["GET"])
 def get_data():
     # data for serial port
     data = {
