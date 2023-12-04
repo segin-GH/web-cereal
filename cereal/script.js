@@ -1,5 +1,5 @@
 // main.js
-import { attachUsbEventListeners } from './usb/usb.js';
+import { attachUsbEventListeners, attachUsbEventListenersButton } from './usb/usb.js';
 
 function loadContent(page) {
   fetch(`${page}.html`)
@@ -11,7 +11,11 @@ function loadContent(page) {
     })
     .then(html => {
       document.getElementById('content-area').innerHTML = html;
-      attachUsbEventListeners();
+
+      if (page === './usb/usb') {
+        attachUsbEventListeners();
+        attachUsbEventListenersButton();
+      }
     })
     .catch(error => {
       console.error('Error loading content:', error);
