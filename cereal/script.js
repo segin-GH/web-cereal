@@ -1,5 +1,5 @@
 // main.js
-import { attachUsbEventListeners } from './usb.js';
+import { attachUsbEventListeners } from './usb/usb.js';
 
 function loadContent(page) {
   fetch(`${page}.html`)
@@ -30,4 +30,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Initial content loading
-loadContent('usb');
+loadContent('./usb/usb');

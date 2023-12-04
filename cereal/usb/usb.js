@@ -1,4 +1,4 @@
-import { attachDropdownListener } from './utils.js';
+import { attachDropdownListener } from '../utils.js';
 
 export function attachUsbEventListeners() {
     attachDropdownListener('dropdownUSBPort', 'dropdownUSB');
