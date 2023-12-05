@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["*"],
+  content: ["./index.html","./usb/usb.html"],
   theme: {
     extend: {
       colors: {
