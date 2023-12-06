@@ -104,9 +104,9 @@ function updateLineEnding() {
 
     // Define your line ending options and their names
     const lineEndings = {
-        '\\n': 'New Line',
-        '\\r': 'Carriage Return',
-        '\\r\\n': 'Both NL & CR',
+        '\n': 'New Line',
+        '\r': 'Carriage Return',
+        '\r\n': 'Both NL & CR',
         '': 'None' // Added 'None' option
     };
 
