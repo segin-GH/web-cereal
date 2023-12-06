@@ -43,7 +43,7 @@ export function attachUsbEventListenersButton() {
 }
 
 function fetchPortData() {
-    fetch('http://localhost:5000/usb-port')
+    fetch('http://localhost:5000/usb/port')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);

@@ -25,17 +25,48 @@ export class SerialPort {
         this.enabledTimeStamps = false;
     }
 
-    serialConnect() {
+    async serialConnect() {
         this.enabled = true;
         let json = this.getSeralPortConfigJSON();
         console.log(json);
+
+        try {
+            // Send POST request to localhost with action type
+            const response = await fetch('http://localhost:5000/usb/conf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: 'connect', data: json }),
+            });
+            const data = await response.json();
+            console.log('Success:', data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
-    serialDisconnect() {
+    async serialDisconnect() {
         this.enabled = false;
         let json = this.getSeralPortConfigJSON();
         console.log(json);
+
+        try {
+            // Send POST request to localhost with action type
+            const response = await fetch('http://localhost:5000/usb/conf', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action: 'disconnect', data: json }),
+            });
+            const data = await response.json();
+            console.log('Success:', data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
+
 
     getSeralPortConfigJSON() {
         return JSON.stringify({
