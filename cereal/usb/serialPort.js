@@ -1,22 +1,50 @@
 // SerialPort.js
 
 export class SerialPort {
-    constructor(port, baudrate=115200, endline = '\n') {
+    constructor(port, baudrate = 115200, endline = '\n') {
+        this.enabled = false;
         this.port = port;
         this.baudrate = baudrate;
         this.endline = endline;
-        // Add other properties as needed
+        this.enabledTimeStamps = false;
     }
 
     changeBaudrate(newBaudrate) {
         this.baudrate = newBaudrate;
-        // Additional logic for changing baudrate
     }
 
     setEndline(newEndline) {
         this.endline = newEndline;
-        // Additional logic for setting endline
     }
 
-    // Add other methods as needed
+    enableTimeStamps() {
+        this.enabledTimeStamps = true;
+    }
+
+    disableTimeStamps() {
+        this.enabledTimeStamps = false;
+    }
+
+    serialConnect() {
+        this.enabled = true;
+        let json = this.getSeralPortConfigJSON();
+        console.log(json);
+    }
+
+    serialDisconnect() {
+        this.enabled = false;
+        let json = this.getSeralPortConfigJSON();
+        console.log(json);
+    }
+
+    getSeralPortConfigJSON() {
+        return JSON.stringify({
+            enabled: this.enabled,
+            port: this.port,
+            baudrate: this.baudrate,
+            endline: this.endline,
+            enabledTimeStamps: this.enabledTimeStamps,
+        });
+    }
+
 }

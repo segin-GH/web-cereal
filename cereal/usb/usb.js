@@ -26,6 +26,20 @@ export function attachUsbEventListenersButton() {
     if (button3) { // Check if the button exists
         button3.addEventListener('click', updateLineEnding);
     }
+
+    const conButton = document.getElementById('connectButton');
+    if (conButton) {
+        conButton.addEventListener('click', handleConClick);
+    } else {
+        console.log("Connect button not found");
+    }
+
+    const closeButton = document.getElementById('clearButton');
+    if (closeButton) {
+        closeButton.addEventListener('click', handleCloseClick);
+    } else {
+        console.log("Close button not found");
+    }
 }
 
 function fetchPortData() {
@@ -131,4 +145,18 @@ function updateLineEnding() {
 
         lineEndingDropdown.appendChild(listItem);
     });
+}
+
+// Function to handle connect button click
+function handleConClick() {
+    if (tabSerialPorts['tab1']) {
+        tabSerialPorts['tab1'].serialConnect();
+    }
+}
+
+// Function to handle close button click
+function handleCloseClick() {
+    if (tabSerialPorts['tab1']) {
+        tabSerialPorts['tab1'].serialDisconnect();
+    }
 }
