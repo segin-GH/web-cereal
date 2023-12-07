@@ -1,7 +1,23 @@
 # app/routes/usb.py
+import kthread
+from flask import Blueprint, jsonify, request
+from app import socketio
+import time
+
 from flask import Blueprint, jsonify, request
 
 bp = Blueprint('usb', __name__, url_prefix='/usb')
+
+# ... other code ...
+
+usb_read_thread = None
+
+
+def read_from_usb_port():
+    while True:
+        reading = time.time()
+        time.sleep(0.1)
+        socketio.emit('usb_data', {'data': reading})
 
 
 @bp.route('/port', methods=['GET'])
@@ -19,24 +35,21 @@ def get_data():
 
 @bp.route('/conf', methods=['POST'])
 def usb_conf():
-    # Get JSON data sent from the client
+    global usb_read_thread
+
     request_data = request.get_json()
-
-    # You can process the data here based on your needs
-    # For example, you might want to check 'action' field and perform corresponding actions
     action = request_data.get('action', '')
-    data = request_data.get('data', {})
 
-    # Add your logic here to handle 'connect' and 'disconnect' actions
     if action == 'connect':
-        # Handle connect action
-        print(data)
-        pass  # Replace with your code
+        if usb_read_thread is None or not usb_read_thread.is_alive():
+            usb_read_thread = kthread.KThread(target=read_from_usb_port)
+            usb_read_thread.start()
+        response = {"status": "success", "message": "USB Reading Started"}
     elif action == 'disconnect':
-        # Handle disconnect action
-        print(data)
-        pass  # Replace with your code
+        if usb_read_thread is not None:
+            usb_read_thread.terminate()
+        response = {"status": "success", "message": "USB Reading Stopped"}
+    else:
+        response = {"status": "error", "message": f"Unknown action '{action}'"}
 
-    # Respond back to the client
-    response = {"status": "success", "message": f"Action '{action}' processed"}
     return jsonify(response)
