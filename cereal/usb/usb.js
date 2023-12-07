@@ -1,5 +1,6 @@
 import { attachDropdownListener } from '../utils.js';
 import { SerialPort } from './serialPort.js';
+import io from 'socket.io-client';
 
 let tabSerialPorts = {
     "tab1": null,
@@ -147,10 +148,26 @@ function updateLineEnding() {
     });
 }
 
+let socket = null;
+
+function setupWebSocket() {
+    // Connect to the WebSocket server
+    socket = io.connect('ws://localhost:5000');
+
+    // Handle incoming WebSocket messages
+    socket.on('usb_data', function (data) {
+        console.log('Data from USB:', data.data);
+        // Process the data as needed
+    });
+
+    // Handle any other events you are interested in
+}
+
 // Function to handle connect button click
 function handleConClick() {
     if (tabSerialPorts['tab1']) {
         tabSerialPorts['tab1'].serialConnect();
+        setupWebSocket();  // Setup WebSocket connection
     }
 }
 
