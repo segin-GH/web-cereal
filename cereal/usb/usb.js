@@ -151,16 +151,23 @@ function updateLineEnding() {
 let socket = null;
 
 function setupWebSocket() {
-    // Connect to the WebSocket server
-    socket = io.connect('ws://localhost:5000');
+    var socket = io.connect('ws://localhost:5000');
 
-    // Handle incoming WebSocket messages
     socket.on('usb_data', function (data) {
-        console.log('Data from USB:', data.data);
-        // Process the data as needed
-    });
+        var outputDiv = document.getElementById('outputDiv');
+        var outerDiv = outputDiv.parentElement;
 
-    // Handle any other events you are interested in
+        // Create a new div for each piece of data
+        var newDataDiv = document.createElement('div');
+        newDataDiv.innerHTML = data.data;
+        outputDiv.appendChild(newDataDiv);
+
+        // Check if the outer div is going to overflow
+        if (outerDiv.scrollHeight > outerDiv.clientHeight) {
+            // Add a small delay before scrolling the outerDiv
+            outerDiv.scrollTop = outerDiv.scrollHeight;
+        }
+    });
 }
 
 // Function to handle connect button click
