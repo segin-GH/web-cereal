@@ -162,8 +162,10 @@ function setupWebSocket() {
         newDataDiv.innerHTML = data.data;
         outputDiv.appendChild(newDataDiv);
 
-        // Check if the outer div is going to overflow
-        if (outerDiv.scrollHeight > outerDiv.clientHeight) {
+        var autoScrollToggle = document.getElementById('autoScroll'); // Get the toggle switch
+
+        // Check if the outer div is going to overflow and if auto scroll is on
+        if (outerDiv.scrollHeight > outerDiv.clientHeight && autoScrollToggle.checked) {
             // Add a small delay before scrolling the outerDiv
             outerDiv.scrollTop = outerDiv.scrollHeight;
         }
