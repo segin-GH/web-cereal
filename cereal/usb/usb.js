@@ -10,14 +10,14 @@ let tabSerialPorts = {
 
 var socket = null;
 
+// Function to attach event listeners to the USB tab
 export function attachUsbEventListeners() {
     attachDropdownListener('dropdownUSBPort', 'dropdownUSB');
     attachDropdownListener('dropdownBaudRate', 'dropdownBaud');
     attachDropdownListener('dropdownLineEnding', 'dropdownLineEnd');
 }
 
-// usb/usb.js
-
+// Function to attach event listeners to the USB tab
 export function attachUsbEventListenersButton() {
     const button = document.getElementById('dropdownUSBPort');
     button?.addEventListener('click', fetchPortData);
@@ -38,42 +38,7 @@ export function attachUsbEventListenersButton() {
 
 }
 
-function setupInputHandlers() {
-    const inputBox = document.getElementById('inputBox');
-    const sendButton = document.getElementById('sendButton');
-
-    const processInput = () => {
-        if (!tabSerialPorts['tab1']?.enabled) {
-            return;
-        }
-        var inputData = { data: inputBox.value };
-        if (inputData.data === '' || inputData.data === null) {
-            return;
-        }
-        serialPortReceiveCallback(inputData.data);
-        tabSerialPorts['tab1']?.sendData(inputData);
-        inputBox.value = '';
-    };
-
-    if (inputBox) {
-        inputBox.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter') {
-                sendButton.style.backgroundColor = '#6366f1';
-                processInput();
-
-                setTimeout(() => {
-                    sendButton.style.backgroundColor = '';
-                }, 90);
-            }
-        });
-    } else {
-        console.log("Input box not found");
-    }
-
-    sendButton?.addEventListener('mousedown', processInput);
-}
-
-
+// Function to fetch the list of available USB ports
 function fetchPortData() {
     fetch('http://localhost:5000/usb/port')
         .then(response => {
@@ -86,6 +51,7 @@ function fetchPortData() {
         .catch(error => console.error('Error fetching data:', error));
 }
 
+// Function to update the USB port dropdown
 function updateDropdownPort(ports) {
     const dropdown = document.querySelector('#dropdownUSB ul');
     dropdown.innerHTML = '';
@@ -114,6 +80,7 @@ function updateDropdownPort(ports) {
     });
 }
 
+// Function to update the baud rate dropdown
 function updateBaudRate() {
     const baudRateDropdown = document.getElementById('dropdownBaud');
     baudRateDropdown.innerHTML = ''; // Clear existing options
@@ -140,7 +107,7 @@ function updateBaudRate() {
 }
 
 
-
+// Function to update the line ending dropdown
 function updateLineEnding() {
     const lineEndingDropdown = document.getElementById('dropdownLineEnd');
     lineEndingDropdown.innerHTML = ''; // Clear existing options
@@ -174,6 +141,7 @@ function updateLineEnding() {
 }
 
 
+// Function to handle received data from serial pipe
 function serialPortReceiveCallback(data) {
     // Create a new div with the received data
     var newDataDiv = document.createElement('div');
@@ -204,4 +172,40 @@ function handleCloseClick() {
     if (tabSerialPorts['tab1']?.enabled) {
         tabSerialPorts['tab1'].serialDisconnect();
     }
+}
+
+// Function to handle input box and send button
+function setupInputHandlers() {
+    const inputBox = document.getElementById('inputBox');
+    const sendButton = document.getElementById('sendButton');
+
+    const processInput = () => {
+        if (!tabSerialPorts['tab1']?.enabled) {
+            return;
+        }
+        var inputData = { data: inputBox.value };
+        if (inputData.data === '' || inputData.data === null) {
+            return;
+        }
+        serialPortReceiveCallback(inputData.data);
+        tabSerialPorts['tab1']?.sendData(inputData);
+        inputBox.value = '';
+    };
+
+    if (inputBox) {
+        inputBox.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                sendButton.style.backgroundColor = '#6366f1';
+                processInput();
+
+                setTimeout(() => {
+                    sendButton.style.backgroundColor = '';
+                }, 90);
+            }
+        });
+    } else {
+        console.log("Input box not found");
+    }
+
+    sendButton?.addEventListener('mousedown', processInput);
 }
