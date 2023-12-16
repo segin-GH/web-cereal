@@ -41,6 +41,34 @@ export function attachUsbEventListenersButton() {
     } else {
         console.log("Close button not found");
     }
+
+    const processInput = () => {
+        var inputData = { data: inputBox.value };
+        handleUSBData(inputData);
+        inputBox.value = ''; // Clear the input box after sending
+    };
+
+    if (inputBox) {
+        inputBox.addEventListener('keydown', function (event) {
+            if (event.key === 'Enter') {
+                sendButton.style.backgroundColor = '#6366f1';
+                processInput();
+
+                setTimeout(() => {
+                    sendButton.style.backgroundColor = '';
+                }, 90);
+            }
+        });
+    }
+    else {
+        console.log("Input box not found");
+    }
+
+    if (sendButton) {
+        sendButton.addEventListener('click', processInput);
+    } else {
+        console.log("Send button not found");
+    }
 }
 
 function fetchPortData() {
