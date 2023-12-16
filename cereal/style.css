@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* USB scroll bar */
+/* Custom Scrollbar Styles for #outputDiv */
+#outputDiv::-webkit-scrollbar {
+    width: 8px;
+    /* Width of the scrollbar */
+}
+
+#outputDiv::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    /* Color of the scrollbar track */
+}
+
+#outputDiv::-webkit-scrollbar-thumb {
+    background: #888;
+    /* Color of the scrollbar thumb */
+    border-radius: 4px;
+    /* Optional: to make the thumb rounded */
+}
+
+#outputDiv::-webkit-scrollbar-thumb:hover {
+    background: #555;
+    /* Color of the scrollbar thumb on hover */
+}
