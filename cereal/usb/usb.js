@@ -1,3 +1,8 @@
+/* TODO: if there is already a connection then do not send connect  */
+/* TODO: the send button gets stuck if there is serial instance */
+/* TODO: timestamp how will u update the config ?  */
+/* TODO: websocket can it be part of the serialPort.js the code can be much more clean */
+
 import { attachDropdownListener } from '../utils.js';
 import { SerialPort } from './serialPort.js';
 import io from 'socket.io-client';
