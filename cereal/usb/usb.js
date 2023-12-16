@@ -20,31 +20,19 @@ export function attachUsbEventListeners() {
 
 export function attachUsbEventListenersButton() {
     const button = document.getElementById('dropdownUSBPort');
-    if (button) { // Check if the button exists
-        button.addEventListener('click', fetchPortData);
-    }
+    button?.addEventListener('click', fetchPortData);
+
     const button2 = document.getElementById('dropdownBaudRate');
-    if (button2) { // Check if the button exists
-        button2.addEventListener('click', updateBaudRate);
-    }
+    button2?.addEventListener('click', updateBaudRate);
+
     const button3 = document.getElementById('dropdownLineEnding');
-    if (button3) { // Check if the button exists
-        button3.addEventListener('click', updateLineEnding);
-    }
+    button3?.addEventListener('click', updateLineEnding);
 
     const conButton = document.getElementById('connectButton');
-    if (conButton) {
-        conButton.addEventListener('click', handleConClick);
-    } else {
-        console.log("Connect button not found");
-    }
+    conButton?.addEventListener('click', handleConClick);
 
     const closeButton = document.getElementById('clearButton');
-    if (closeButton) {
-        closeButton.addEventListener('click', handleCloseClick);
-    } else {
-        console.log("Close button not found");
-    }
+    closeButton?.addEventListener('click', handleCloseClick);
 
     setupInputHandlers();
 
@@ -55,14 +43,15 @@ function setupInputHandlers() {
     const sendButton = document.getElementById('sendButton');
 
     const processInput = () => {
-        var inputData = { data: inputBox.value };
-        if (inputData.data === '') {
+        if (!tabSerialPorts['tab1']?.enabled) {
             return;
         }
-        handleUSBData(inputData.data);
-        if (tabSerialPorts['tab1']) {
-            tabSerialPorts['tab1'].sendData(inputData);
+        var inputData = { data: inputBox.value };
+        if (inputData.data === '' || inputData.data === null) {
+            return;
         }
+        serialPortReceiveCallback(inputData.data);
+        tabSerialPorts['tab1']?.sendData(inputData);
         inputBox.value = '';
     };
 
@@ -81,11 +70,7 @@ function setupInputHandlers() {
         console.log("Input box not found");
     }
 
-    if (sendButton) {
-        sendButton.addEventListener('click', processInput);
-    } else {
-        console.log("Send button not found");
-    }
+    sendButton?.addEventListener('mousedown', processInput);
 }
 
 
@@ -145,11 +130,8 @@ function updateBaudRate() {
         listItem.addEventListener('click', function () {
             document.getElementById('dropdownBaudRateText').textContent = baudRate;
 
-            // Assuming tab1 is always the current tab
-            if (tabSerialPorts['tab1']) {
-                tabSerialPorts['tab1'].changeBaudrate(baudRate);
-            }
-
+            // Assuming tab1 is always the current tab]
+            tabSerialPorts['tab1']?.changeBaudrate(baudRate);
             console.log('Baud rate updated in tab1:', tabSerialPorts['tab1']);
         });
 
@@ -183,10 +165,7 @@ function updateLineEnding() {
             textSpan.textContent = name;
 
             // Assuming tab1 is always the current tab
-            if (tabSerialPorts['tab1']) {
-                tabSerialPorts['tab1'].setEndline(symbol);
-            }
-
+            tabSerialPorts['tab1']?.setEndline(symbol);
             console.log('Line ending updated in tab1:', tabSerialPorts['tab1']);
         });
 
