@@ -155,22 +155,25 @@ function setupWebSocket() {
 
     socket.on('usb_data', function (data) {
         var outputDiv = document.getElementById('outputDiv');
-        var outerDiv = outputDiv.parentElement;
 
         // Create a new div for each piece of data
         var newDataDiv = document.createElement('div');
         newDataDiv.innerHTML = data.data;
         outputDiv.appendChild(newDataDiv);
 
+        // Force the browser to perform a layout update
+        newDataDiv.offsetHeight;
+
         var autoScrollToggle = document.getElementById('autoScroll'); // Get the toggle switch
 
-        // Check if the outer div is going to overflow and if auto scroll is on
-        if (outerDiv.scrollHeight > outerDiv.clientHeight && autoScrollToggle.checked) {
-            // Add a small delay before scrolling the outerDiv
-            outerDiv.scrollTop = outerDiv.scrollHeight;
+
+        // Scroll if auto-scroll is enabled
+        if (autoScrollToggle.checked) {
+            outputDiv.scrollTop = outputDiv.scrollHeight;
         }
     });
 }
+
 
 // Function to handle connect button click
 function handleConClick() {
