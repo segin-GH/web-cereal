@@ -1,12 +1,15 @@
-// SerialPort.js
+import io from 'socket.io-client';
 
 export class SerialPort {
-    constructor(port, baudrate = 115200, endline = '\n') {
+    constructor(port, baudrate = 115200, endline = '\n', dataCallback = null) {
         this.enabled = false;
         this.port = port;
         this.baudrate = baudrate;
         this.endline = endline;
         this.enabledTimeStamps = false;
+        this.socket = null;
+        this.dataCallback = dataCallback;
+
     }
 
     changeBaudrate(newBaudrate) {
@@ -23,6 +26,10 @@ export class SerialPort {
 
     disableTimeStamps() {
         this.enabledTimeStamps = false;
+    }
+
+    setCallbackForReceivedData(callback) {
+        this.dataCallback = callback;
     }
 
     async serialConnect() {
@@ -65,6 +72,31 @@ export class SerialPort {
         } catch (error) {
             console.error('Error:', error);
         }
+    }
+
+    connectSerialPipe() {
+        this.socket = io.connect('ws://localhost:5000');
+        this.socket.on('usb_data', this.#onSerialPipeReceivedData.bind(this));
+    }
+
+    #onSerialPipeReceivedData(data) {
+        if (this.dataCallback && this.socket && this.enabled) {
+            this.dataCallback(data.data);
+        } else {
+            console.log("Data received through Serial Pipe:", data.data);
+        }
+    }
+
+    sendData(data) {
+        if (this.enabled && this.socket) {
+            this.#sendDataThroughSerialPipe(data);
+        } else {
+            console.log("Serial port is not enabled");
+        }
+    }
+
+    #sendDataThroughSerialPipe(data) {
+        this.socket.emit('usb_data', { data: data });
     }
 
 

@@ -1,11 +1,9 @@
 /* TODO: if there is already a connection then do not send connect  */
 /* TODO: the send button gets stuck if there is serial instance */
 /* TODO: timestamp how will u update the config ?  */
-/* TODO: websocket can it be part of the serialPort.js the code can be much more clean */
 
 import { attachDropdownListener } from '../utils.js';
 import { SerialPort } from './serialPort.js';
-import io from 'socket.io-client';
 
 let tabSerialPorts = {
     "tab1": null,
@@ -62,8 +60,10 @@ function setupInputHandlers() {
         if (inputData.data === '') {
             return;
         }
-        handleUSBData(inputData);
-        socket.emit('usb_data', inputData); // or any other appropriate data structure
+        handleUSBData(inputData.data);
+        if (tabSerialPorts['tab1']) {
+            tabSerialPorts['tab1'].sendData(inputData);
+        }
         inputBox.value = '';
     };
 
@@ -196,39 +196,28 @@ function updateLineEnding() {
 }
 
 
-function connectWebSocket() {
-    socket = io.connect('ws://localhost:5000');
-    socket.on('usb_data', handleUSBData);
-}
-
-function handleUSBData(data) {
-    var outputDiv = document.getElementById('outputDiv');
-    var newDataDiv = createDataDiv(data.data);
-    outputDiv.appendChild(newDataDiv);
-    toggleAutoScroll(outputDiv);
-}
-
-function createDataDiv(data) {
+function serialPortReceiveCallback(data) {
+    // Create a new div with the received data
     var newDataDiv = document.createElement('div');
     newDataDiv.innerHTML = data;
-    return newDataDiv;
-}
 
+    // Append the new div to the output div
+    var outputDiv = document.getElementById('outputDiv');
+    outputDiv.appendChild(newDataDiv);
 
-function toggleAutoScroll(outputDiv) {
+    // Auto-scroll if enabled
     var autoScrollToggle = document.getElementById('autoScroll');
-    if (autoScrollToggle.checked) {
+    if (autoScrollToggle && autoScrollToggle.checked) {
         outputDiv.scrollTop = outputDiv.scrollHeight;
     }
 }
-
-
 
 // Function to handle connect button click
 function handleConClick() {
     if (tabSerialPorts['tab1']) {
         tabSerialPorts['tab1'].serialConnect();
-        connectWebSocket();
+        tabSerialPorts['tab1'].setCallbackForReceivedData(serialPortReceiveCallback);
+        tabSerialPorts['tab1'].connectSerialPipe();
     }
 }
 
