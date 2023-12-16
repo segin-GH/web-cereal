@@ -54,6 +54,9 @@ function setupInputHandlers() {
 
     const processInput = () => {
         var inputData = { data: inputBox.value };
+        if (inputData.data === '') {
+            return;
+        }
         handleUSBData(inputData);
         socket.emit('usb_data', inputData); // or any other appropriate data structure
         inputBox.value = '';

@@ -8,8 +8,6 @@ from flask import Blueprint, jsonify, request
 
 bp = Blueprint('usb', __name__, url_prefix='/usb')
 
-# ... other code ...
-
 usb_read_thread = None
 
 
@@ -27,7 +25,6 @@ def read_from_usb_port():
 
 @bp.route('/port', methods=['GET'])
 def get_data():
-    # Data for serial port
     data = {
         "ports": [
             {"port": "/dev/ttyUSB0", "baudrate": 115200},
