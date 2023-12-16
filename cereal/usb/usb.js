@@ -148,38 +148,40 @@ function updateLineEnding() {
     });
 }
 
-let socket = null;
 
-function setupWebSocket() {
+function connectWebSocket() {
     var socket = io.connect('ws://localhost:5000');
-
-    socket.on('usb_data', function (data) {
-        var outputDiv = document.getElementById('outputDiv');
-
-        // Create a new div for each piece of data
-        var newDataDiv = document.createElement('div');
-        newDataDiv.innerHTML = data.data;
-        outputDiv.appendChild(newDataDiv);
-
-        // Force the browser to perform a layout update
-        newDataDiv.offsetHeight;
-
-        var autoScrollToggle = document.getElementById('autoScroll'); // Get the toggle switch
-
-
-        // Scroll if auto-scroll is enabled
-        if (autoScrollToggle.checked) {
-            outputDiv.scrollTop = outputDiv.scrollHeight;
-        }
-    });
+    socket.on('usb_data', handleUSBData);
 }
+
+function handleUSBData(data) {
+    var outputDiv = document.getElementById('outputDiv');
+    var newDataDiv = createDataDiv(data.data);
+    outputDiv.appendChild(newDataDiv);
+    toggleAutoScroll(outputDiv);
+}
+
+function createDataDiv(data) {
+    var newDataDiv = document.createElement('div');
+    newDataDiv.innerHTML = data;
+    return newDataDiv;
+}
+
+
+function toggleAutoScroll(outputDiv) {
+    var autoScrollToggle = document.getElementById('autoScroll');
+    if (autoScrollToggle.checked) {
+        outputDiv.scrollTop = outputDiv.scrollHeight;
+    }
+}
+
 
 
 // Function to handle connect button click
 function handleConClick() {
     if (tabSerialPorts['tab1']) {
         tabSerialPorts['tab1'].serialConnect();
-        setupWebSocket();  // Setup WebSocket connection
+        connectWebSocket();
     }
 }
 
