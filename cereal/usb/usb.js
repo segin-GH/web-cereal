@@ -31,8 +31,11 @@ export function attachUsbEventListenersButton() {
     const conButton = document.getElementById('connectButton');
     conButton?.addEventListener('click', handleConClick);
 
-    const closeButton = document.getElementById('clearButton');
+    const closeButton = document.getElementById('closeButton');
     closeButton?.addEventListener('click', handleCloseClick);
+
+    const clearButton = document.getElementById('clearScreen');
+    clearButton?.addEventListener('click', handleClearClick);
 
     setupInputHandlers();
 
@@ -208,4 +211,15 @@ function setupInputHandlers() {
     }
 
     sendButton?.addEventListener('mousedown', processInput);
+}
+
+// Function to handle clear button click
+function handleClearClick() {
+    var outputDiv = document.getElementById('outputDiv');
+    outputDiv.innerHTML = '';
+
+    setTimeout(() => {
+        var clearButton = document.getElementById('clearScreen');
+        clearButton.checked = false;
+    }, 90);
 }
