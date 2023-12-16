@@ -12,6 +12,17 @@ export class SerialPort {
 
     }
 
+    destroy() {
+        this.enabled = false;
+        this.port = null;
+        this.baudrate = null;
+        this.endline = null;
+        this.enabledTimeStamps = false;
+        this.socket = null;
+        this.dataCallback = null;
+    }
+
+
     changeBaudrate(newBaudrate) {
         this.baudrate = newBaudrate;
     }
@@ -58,6 +69,7 @@ export class SerialPort {
         let json = this.getSeralPortConfigJSON();
         console.log(json);
 
+        /* TODO disconnect from socket */
         try {
             // Send POST request to localhost with action type
             const response = await fetch('http://localhost:5000/usb/conf', {
@@ -75,6 +87,9 @@ export class SerialPort {
     }
 
     connectSerialPipe() {
+        if (this.socket) {
+            return;
+        }
         this.socket = io.connect('ws://localhost:5000');
         this.socket.on('usb_data', this.#onSerialPipeReceivedData.bind(this));
     }

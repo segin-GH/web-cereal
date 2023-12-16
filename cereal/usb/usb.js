@@ -1,4 +1,3 @@
-/* TODO: if there is already a connection then do not send connect  */
 /* TODO: the send button gets stuck if there is serial instance */
 /* TODO: timestamp how will u update the config ?  */
 
@@ -214,7 +213,7 @@ function serialPortReceiveCallback(data) {
 
 // Function to handle connect button click
 function handleConClick() {
-    if (tabSerialPorts['tab1']) {
+    if (tabSerialPorts['tab1'] && !tabSerialPorts['tab1'].enabled) {
         tabSerialPorts['tab1'].serialConnect();
         tabSerialPorts['tab1'].setCallbackForReceivedData(serialPortReceiveCallback);
         tabSerialPorts['tab1'].connectSerialPipe();
@@ -223,7 +222,7 @@ function handleConClick() {
 
 // Function to handle close button click
 function handleCloseClick() {
-    if (tabSerialPorts['tab1']) {
+    if (tabSerialPorts['tab1']?.enabled) {
         tabSerialPorts['tab1'].serialDisconnect();
     }
 }

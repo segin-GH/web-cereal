@@ -47,14 +47,18 @@ def usb_conf():
     action = request_data.get('action', '')
 
     if action == 'connect':
-        if usb_read_thread is None or not usb_read_thread.is_alive():
-            usb_read_thread = kthread.KThread(target=read_from_usb_port)
-            usb_read_thread.start()
+        if usb_read_thread is not None and usb_read_thread.is_alive():
+            usb_read_thread.terminate()  # Terminate existing thread
+        usb_read_thread = kthread.KThread(target=read_from_usb_port)
+        usb_read_thread.start()
         response = {"status": "success", "message": "USB Reading Started"}
+
     elif action == 'disconnect':
-        if usb_read_thread is not None:
+        if usb_read_thread is not None and usb_read_thread.is_alive():
             usb_read_thread.terminate()
+            usb_read_thread = None
         response = {"status": "success", "message": "USB Reading Stopped"}
+
     else:
         response = {"status": "error", "message": f"Unknown action '{action}'"}
 
