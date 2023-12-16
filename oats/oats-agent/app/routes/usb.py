@@ -13,6 +13,11 @@ bp = Blueprint('usb', __name__, url_prefix='/usb')
 usb_read_thread = None
 
 
+@socketio.on('usb_data')
+def handle_usb_data(data):
+    print(str(data))
+
+
 def read_from_usb_port():
     while True:
         reading = time.time()

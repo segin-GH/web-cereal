@@ -6,6 +6,8 @@ let tabSerialPorts = {
     "tab1": null,
 };
 
+var socket = null;
+
 export function attachUsbEventListeners() {
     attachDropdownListener('dropdownUSBPort', 'dropdownUSB');
     attachDropdownListener('dropdownBaudRate', 'dropdownBaud');
@@ -42,10 +44,19 @@ export function attachUsbEventListenersButton() {
         console.log("Close button not found");
     }
 
+    setupInputHandlers();
+
+}
+
+function setupInputHandlers() {
+    const inputBox = document.getElementById('inputBox');
+    const sendButton = document.getElementById('sendButton');
+
     const processInput = () => {
         var inputData = { data: inputBox.value };
         handleUSBData(inputData);
-        inputBox.value = ''; // Clear the input box after sending
+        socket.emit('usb_data', inputData); // or any other appropriate data structure
+        inputBox.value = '';
     };
 
     if (inputBox) {
@@ -59,8 +70,7 @@ export function attachUsbEventListenersButton() {
                 }, 90);
             }
         });
-    }
-    else {
+    } else {
         console.log("Input box not found");
     }
 
@@ -70,6 +80,7 @@ export function attachUsbEventListenersButton() {
         console.log("Send button not found");
     }
 }
+
 
 function fetchPortData() {
     fetch('http://localhost:5000/usb/port')
@@ -178,7 +189,7 @@ function updateLineEnding() {
 
 
 function connectWebSocket() {
-    var socket = io.connect('ws://localhost:5000');
+    socket = io.connect('ws://localhost:5000');
     socket.on('usb_data', handleUSBData);
 }
 
