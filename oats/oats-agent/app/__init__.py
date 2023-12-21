@@ -17,7 +17,7 @@ def create_app(config_class=Config):
     # Adjust cors_allowed_origins as needed
     socketio.init_app(app, cors_allowed_origins="*")
 
-    from app.routes.usb import bp as usb_bp
+    from app.routes.route_usb import bp as usb_bp
     app.register_blueprint(usb_bp)
 
     return app
