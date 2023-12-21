@@ -16,8 +16,8 @@ usb_read_thread = None
 
 
 @socketio.on('usb_data')
-def handle_usb_data(data):
-    print(str(data))
+def receive_usb_data(data):
+    print(data)
 
 
 def read_from_usb_port():
@@ -45,22 +45,23 @@ def usb_conf():
 
     request_data = request.get_json()
     print(request_data)
-    action = request_data.get('action', '')
+    enabled = request_data['enabled']
 
-    if action == 'connect':
+    if enabled == True:
         if usb_read_thread is not None and usb_read_thread.is_alive():
             usb_read_thread.terminate()  # Terminate existing thread
         usb_read_thread = kthread.KThread(target=read_from_usb_port)
         usb_read_thread.start()
         response = {"status": "success", "message": "USB Reading Started"}
 
-    elif action == 'disconnect':
+    elif enabled == False:
         if usb_read_thread is not None and usb_read_thread.is_alive():
             usb_read_thread.terminate()
             usb_read_thread = None
         response = {"status": "success", "message": "USB Reading Stopped"}
 
     else:
-        response = {"status": "error", "message": f"Unknown action '{action}'"}
+        response = {"status": "error",
+                    "message": f"Unknown enabled '{enabled}'"}
 
     return jsonify(response)

@@ -45,17 +45,13 @@ export class SerialPort {
 
     async serialConnect() {
         this.enabled = true;
-        let json = this.getSeralPortConfigJSON();
-        console.log(json);
-
         try {
-            // Send POST request to localhost with action type
             const response = await fetch('http://localhost:5000/usb/usb_conf', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ action: 'connect', data: json }),
+                body: this.getSeralPortConfigJSON(),
             });
             const data = await response.json();
             console.log('Success:', data);
@@ -66,18 +62,14 @@ export class SerialPort {
 
     async serialDisconnect() {
         this.enabled = false;
-        let json = this.getSeralPortConfigJSON();
-        console.log(json);
-
         /* TODO disconnect from socket */
         try {
-            // Send POST request to localhost with action type
             const response = await fetch('http://localhost:5000/usb/usb_conf', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ action: 'disconnect', data: json }),
+                body: this.getSeralPortConfigJSON(),
             });
             const data = await response.json();
             console.log('Success:', data);
