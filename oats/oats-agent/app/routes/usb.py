@@ -44,6 +44,7 @@ def usb_conf():
     global usb_read_thread
 
     request_data = request.get_json()
+    print(request_data)
     action = request_data.get('action', '')
 
     if action == 'connect':
