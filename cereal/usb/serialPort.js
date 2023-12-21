@@ -50,7 +50,7 @@ export class SerialPort {
 
         try {
             // Send POST request to localhost with action type
-            const response = await fetch('http://localhost:5000/usb/conf', {
+            const response = await fetch('http://localhost:5000/usb/usb_conf', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -72,7 +72,7 @@ export class SerialPort {
         /* TODO disconnect from socket */
         try {
             // Send POST request to localhost with action type
-            const response = await fetch('http://localhost:5000/usb/conf', {
+            const response = await fetch('http://localhost:5000/usb/usb_conf', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

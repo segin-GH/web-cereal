@@ -27,7 +27,7 @@ def read_from_usb_port():
         socketio.emit('usb_data', {'data': reading})
 
 
-@bp.route('/port', methods=['GET'])
+@bp.route('/usb_port', methods=['GET'])
 def get_data():
     data = {
         "ports": [
@@ -39,7 +39,7 @@ def get_data():
     return jsonify(data)
 
 
-@bp.route('/conf', methods=['POST'])
+@bp.route('/usb_conf', methods=['POST'])
 def usb_conf():
     global usb_read_thread
 

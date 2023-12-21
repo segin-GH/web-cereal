@@ -43,7 +43,7 @@ export function attachUsbEventListenersButton() {
 
 // Function to fetch the list of available USB ports
 function fetchPortData() {
-    fetch('http://localhost:5000/usb/port')
+    fetch('http://localhost:5000/usb/usb_port')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
