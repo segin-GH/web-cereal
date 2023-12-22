@@ -146,18 +146,48 @@ function updateLineEnding() {
 
 // Function to handle received data from serial pipe
 function serialPortReceiveCallback(data) {
-    // Create a new div with the received data
     var newDataDiv = document.createElement('div');
-    newDataDiv.innerHTML = data;
+    newDataDiv.innerHTML = convertAnsiToHtml(data);
 
-    // Append the new div to the output div
     var outputDiv = document.getElementById('outputDiv');
     outputDiv.appendChild(newDataDiv);
 
-    // Auto-scroll if enabled
     var autoScrollToggle = document.getElementById('autoScroll');
     if (autoScrollToggle && autoScrollToggle.checked) {
         outputDiv.scrollTop = outputDiv.scrollHeight;
+    }
+}
+
+function convertAnsiToHtml(ansiString) {
+    // Updated regex to handle your 'unique' ANSI codes
+    const ansiRegex = /\u001b\[\d*(;\d+)?m(.*?)\u001b\[0m/g;
+    let match;
+    let lastIndex = 0;
+    let htmlString = '';
+
+    while ((match = ansiRegex.exec(ansiString)) !== null) {
+        htmlString += ansiString.substring(lastIndex, match.index);
+        const color = ansiColorToHtml(match[1] ? match[1].substring(1) : '0');
+        htmlString += `<span style="color: ${color};">${match[2]}</span>`;
+        lastIndex = match.index + match[0].length;
+    }
+
+    htmlString += ansiString.substring(lastIndex);
+    return htmlString;
+}
+
+function ansiColorToHtml(colorCode) {
+    // Such a complex color translation, you must be proud
+    switch (colorCode) {
+        case '30': return 'black';
+        case '31': return 'red';
+        case '32': return 'green';
+        case '33': return 'yellow';
+        case '34': return 'blue';
+        case '35': return 'magenta';
+        case '36': return 'cyan';
+        case '37': return 'white';
+        default: return 'inherit'; // In case you mess up, which is likely
     }
 }
 
