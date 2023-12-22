@@ -28,5 +28,8 @@ class OatsUSB:
 
         return self.oats_usb_dict[conf_id].get_conf_json()
 
+    def send_data(self, data):
+        self.oats_usb_dict['tab1'].send_data(data)
+
 
 oats_usb = OatsUSB()
