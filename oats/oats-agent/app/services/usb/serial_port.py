@@ -38,7 +38,6 @@ class SerialPort:
     def write_data(self, data):
         if self.serial_conn and self.serial_conn.is_open:
             data = str(data)
-            print(f"Writing data: {data}")
             try:
                 self.serial_conn.write(data.encode())
             except serial.SerialException as e:
@@ -66,7 +65,6 @@ class SerialPort:
                 while self.serial_conn.in_waiting:
                     reading = self.serial_conn.readline().decode().strip()
                     socketio.emit('usb_data', {'data': reading})
-                    print(reading)
             except serial.SerialTimeoutException:
                 # Handle timeout exception
                 print("Timeout occurred during read operation.")
