@@ -143,7 +143,6 @@ function updateLineEnding() {
     });
 }
 
-
 // Function to handle received data from serial pipe
 function serialPortReceiveCallback(data) {
     var newDataDiv = document.createElement('div');
@@ -158,8 +157,8 @@ function serialPortReceiveCallback(data) {
     }
 }
 
+/* TODO: sometimes the ansi conversion does not work */
 function convertAnsiToHtml(ansiString) {
-    // Updated regex to handle your 'unique' ANSI codes
     const ansiRegex = /\u001b\[\d*(;\d+)?m(.*?)\u001b\[0m/g;
     let match;
     let lastIndex = 0;
@@ -177,7 +176,6 @@ function convertAnsiToHtml(ansiString) {
 }
 
 function ansiColorToHtml(colorCode) {
-    // Such a complex color translation, you must be proud
     switch (colorCode) {
         case '30': return 'black';
         case '31': return 'red';
@@ -187,7 +185,7 @@ function ansiColorToHtml(colorCode) {
         case '35': return 'magenta';
         case '36': return 'cyan';
         case '37': return 'white';
-        default: return 'inherit'; // In case you mess up, which is likely
+        default: return 'inherit';
     }
 }
 

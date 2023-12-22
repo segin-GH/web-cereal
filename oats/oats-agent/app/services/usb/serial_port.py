@@ -46,6 +46,7 @@ class SerialPort:
                 print(f"Unexpected error during write: {e}")
 
     def turn_on(self):
+        # TODO handle the case when the port is not available
         self.serial_conn = serial.Serial(self.port, self.baudrate)
         self.enabled = True
         self.read_thread = kthread.KThread(
@@ -74,6 +75,7 @@ class SerialPort:
             except UnicodeDecodeError:
                 # Handle decoding error, for example, when invalid bytes are received
                 print("Decoding error occurred. Invalid byte sequence received.")
+                # TODO: handle error when the device is disconnected
             except Exception as e:
                 # Handle any other unexpected errors
                 print(f"Unexpected error during read: {e}")
