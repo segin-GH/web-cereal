@@ -1,4 +1,3 @@
-/* TODO: the send button gets stuck if there is serial instance */
 /* TODO: timestamp how will u update the config ?  */
 
 import { attachDropdownListener } from '../utils.js';
@@ -74,6 +73,7 @@ function updateDropdownPort(ports) {
             } else {
                 // Create a new SerialPort instance with default or existing baudrate and endline
                 tabSerialPorts['tab1'] = new SerialPort(port.port);
+                tabSerialPorts['tab1'].setID('tab1');
             }
             console.log('Current state of tab1:', tabSerialPorts['tab1']);
 
@@ -143,21 +143,49 @@ function updateLineEnding() {
     });
 }
 
-
 // Function to handle received data from serial pipe
 function serialPortReceiveCallback(data) {
-    // Create a new div with the received data
     var newDataDiv = document.createElement('div');
-    newDataDiv.innerHTML = data;
+    newDataDiv.innerHTML = convertAnsiToHtml(data);
 
-    // Append the new div to the output div
     var outputDiv = document.getElementById('outputDiv');
     outputDiv.appendChild(newDataDiv);
 
-    // Auto-scroll if enabled
     var autoScrollToggle = document.getElementById('autoScroll');
     if (autoScrollToggle && autoScrollToggle.checked) {
         outputDiv.scrollTop = outputDiv.scrollHeight;
+    }
+}
+
+/* TODO: sometimes the ansi conversion does not work */
+function convertAnsiToHtml(ansiString) {
+    const ansiRegex = /\u001b\[\d*(;\d+)?m(.*?)\u001b\[0m/g;
+    let match;
+    let lastIndex = 0;
+    let htmlString = '';
+
+    while ((match = ansiRegex.exec(ansiString)) !== null) {
+        htmlString += ansiString.substring(lastIndex, match.index);
+        const color = ansiColorToHtml(match[1] ? match[1].substring(1) : '0');
+        htmlString += `<span style="color: ${color};">${match[2]}</span>`;
+        lastIndex = match.index + match[0].length;
+    }
+
+    htmlString += ansiString.substring(lastIndex);
+    return htmlString;
+}
+
+function ansiColorToHtml(colorCode) {
+    switch (colorCode) {
+        case '30': return 'black';
+        case '31': return 'red';
+        case '32': return 'green';
+        case '33': return 'yellow';
+        case '34': return 'blue';
+        case '35': return 'magenta';
+        case '36': return 'cyan';
+        case '37': return 'white';
+        default: return 'inherit';
     }
 }
 
