@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 
 export class SerialPort {
-    constructor(port, baudrate = 115200, endline = '\n', dataCallback = null) {
+    constructor(port, baudrate = 115200, endline = '\n', dataCallback = null, id = null) {
         this.enabled = false;
         this.port = port;
         this.baudrate = baudrate;
@@ -9,6 +9,7 @@ export class SerialPort {
         this.enabledTimeStamps = false;
         this.socket = null;
         this.dataCallback = dataCallback;
+        this.id = null;
 
     }
 
@@ -20,6 +21,7 @@ export class SerialPort {
         this.enabledTimeStamps = false;
         this.socket = null;
         this.dataCallback = null;
+        this.id = null;
     }
 
 
@@ -41,6 +43,14 @@ export class SerialPort {
 
     setCallbackForReceivedData(callback) {
         this.dataCallback = callback;
+    }
+
+    setID(id) {
+        this.id = id;
+    }
+
+    unsetID() {
+        this.id = null;
     }
 
     async serialConnect() {
@@ -110,6 +120,7 @@ export class SerialPort {
 
     getSeralPortConfigJSON() {
         return JSON.stringify({
+            id: this.id,
             enabled: this.enabled,
             port: this.port,
             baudrate: this.baudrate,

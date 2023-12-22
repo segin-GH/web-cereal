@@ -1,4 +1,3 @@
-/* TODO: the send button gets stuck if there is serial instance */
 /* TODO: timestamp how will u update the config ?  */
 
 import { attachDropdownListener } from '../utils.js';
@@ -74,6 +73,7 @@ function updateDropdownPort(ports) {
             } else {
                 // Create a new SerialPort instance with default or existing baudrate and endline
                 tabSerialPorts['tab1'] = new SerialPort(port.port);
+                tabSerialPorts['tab1'].setID('tab1');
             }
             console.log('Current state of tab1:', tabSerialPorts['tab1']);
 
