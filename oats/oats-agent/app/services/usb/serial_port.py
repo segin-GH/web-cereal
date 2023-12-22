@@ -55,6 +55,9 @@ class SerialPort:
             time.sleep(0.1)
             socketio.emit('usb_data', {'data': reading})
 
+    def send_data(self, data):
+        print(data)
+
     def get_conf_json(self):
         return {
             "port": self.port,
