@@ -56,7 +56,8 @@ export class SerialPort {
             const data = await response.json();
             console.log('Success:', data);
         } catch (error) {
-            console.error('Error:', error);
+            console.error('Error in Serial Connect:', error);
+            this.enabled = false;
         }
     }
 
