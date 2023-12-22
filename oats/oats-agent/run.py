@@ -2,10 +2,10 @@
 
 # run.py
 
-import eventlet
-eventlet.monkey_patch()  # Monkey patch for eventlet
-
 from app import create_app, socketio
+from eventlet import monkey_patch
+
+monkey_patch()
 
 app = create_app()
 
