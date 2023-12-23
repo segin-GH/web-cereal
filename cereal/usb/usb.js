@@ -152,22 +152,34 @@ function updateLineEnding() {
 }
 
 // Function to handle received data from serial pipe
+function escapeHtml(text) {
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+}
+
 function serialPortReceiveCallback(data) {
-    var newDataDiv = document.createElement('div');
-    newDataDiv.innerHTML = convertAnsiToHtml(data);
+    var newData = document.createElement('div');
+    newData.innerHTML = convertAnsiToHtml(escapeHtml(data));
 
     // Add styles to wrap the text
-    newDataDiv.style.whiteSpace = 'pre-wrap'; // Or 'normal', based on your specific need
-    newDataDiv.style.overflowWrap = 'break-word';
+    newData.style.whiteSpace = 'pre-wrap';  // Corrected the property name
+    newData.style.overflowWrap = 'break-word';
 
     var outputDiv = document.getElementById('outputDiv');
-    outputDiv.appendChild(newDataDiv);
+    outputDiv.appendChild(newData);
 
     var autoScrollToggle = document.getElementById('autoScroll');
     if (autoScrollToggle && autoScrollToggle.checked) {
         outputDiv.scrollTop = outputDiv.scrollHeight;
     }
 }
+
 
 /* TODO: sometimes the ansi conversion does not work */
 function convertAnsiToHtml(ansiString) {
@@ -208,6 +220,9 @@ function handleConClick() {
         tabSerialPorts['tab1'].setCallbackForReceivedData(serialPortReceiveCallback);
         tabSerialPorts['tab1'].connectSerialPipe();
     }
+    else {
+        alert('Already connected ' + tabSerialPorts['tab1'].port);
+    }
 }
 
 // Function to handle close button click
@@ -215,8 +230,12 @@ function handleCloseClick() {
     if (tabSerialPorts['tab1']?.enabled) {
         tabSerialPorts['tab1'].serialDisconnect();
     }
+    else {
+        alert('Already disconnected');
+    }
 }
 
+/* TODO: make the input bux multi line */
 // Function to handle input box and send button
 function setupInputHandlers() {
     const inputBox = document.getElementById('inputBox');
