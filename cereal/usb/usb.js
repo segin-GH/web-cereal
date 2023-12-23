@@ -169,9 +169,6 @@ function serialPortReceiveCallback(data) {
     }
 }
 
-
-
-
 /* TODO: sometimes the ansi conversion does not work */
 function convertAnsiToHtml(ansiString) {
     const ansiRegex = /\u001b\[\d*(;\d+)?m(.*?)\u001b\[0m/g;
