@@ -61,10 +61,14 @@ class SerialPort:
         if self.serial_conn and self.serial_conn.is_open:
             self.serial_conn.close()
 
+    def close_serial(self):
+        if self.serial_conn and self.serial_conn.is_open:
+            self.serial_conn.close()
+
     def read_data(self):
         while self.enabled:
             try:
-                while self.serial_conn.in_waiting:
+                while self.serial_conn.in_waiting > 0:
                     reading = self.serial_conn.readline().decode().strip()
                     socketio.emit('usb_data', {'data': reading})
             except serial.SerialTimeoutException:
@@ -76,7 +80,13 @@ class SerialPort:
             except UnicodeDecodeError:
                 # Handle decoding error, for example, when invalid bytes are received
                 print("Decoding error occurred. Invalid byte sequence received.")
-                # TODO: handle error when the device is disconnected
+            except IOError as e:
+                # Handle I/O errors, such as device disconnection
+                if e.errno == 5:
+                    socketio.emit('disconnect_request', {'data': 'disconnect'})
+                    print("I/O Error: Device might have been disconnected.")
+                    self.enabled = False
+                    self.close_serial()
             except Exception as e:
                 # Handle any other unexpected errors
                 print(f"Unexpected error during read: {e}")
