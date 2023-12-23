@@ -65,6 +65,7 @@ export class SerialPort {
             });
             const data = await response.json();
             console.log('Success:', data);
+            alert('Connected to ' + data.port);
         } catch (error) {
             console.error('Error in Serial Connect:', error);
             this.enabled = false;
@@ -83,6 +84,7 @@ export class SerialPort {
                 body: this.getSeralPortConfigJSON(),
             });
             const data = await response.json();
+            alert('Disconnected from ' + data.port);
             console.log('Success:', data);
         } catch (error) {
             console.error('Error:', error);
@@ -95,6 +97,7 @@ export class SerialPort {
         }
         this.socket = io.connect('ws://localhost:5000');
         this.socket.on('usb_data', this.#onSerialPipeReceivedData.bind(this));
+        this.socket.on('disconnect_request', this.#onSerialPipeDisconnectRequest.bind(this));
     }
 
     #onSerialPipeReceivedData(data) {
@@ -103,6 +106,13 @@ export class SerialPort {
         } else {
             console.log("Data received through Serial Pipe:", data.data);
         }
+    }
+
+    #onSerialPipeDisconnectRequest() {
+        this.enabled = false;
+        alert("Lost Device " + this.port);
+        this.socket.disconnect();
+        this.socket = null;
     }
 
     sendData(data) {
