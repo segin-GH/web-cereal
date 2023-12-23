@@ -36,8 +36,16 @@ export function attachUsbEventListenersButton() {
     const clearButton = document.getElementById('clearScreen');
     clearButton?.addEventListener('click', handleClearClick);
 
+    const toggleSideBarButton = document.getElementById('toggleSidebar');
+    toggleSideBarButton?.addEventListener('click', toggleSideBar);
+
     setupInputHandlers();
 
+}
+
+function toggleSideBar() {
+    var sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('hidden');
 }
 
 // Function to fetch the list of available USB ports
