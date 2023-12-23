@@ -8,8 +8,8 @@
     <title>USB-CEREAL</title>
 </head>
 
-<body>
-    <main class=" flex flex-col h-screen text-clr-txt text-xs ">
+<body class="w-auto">
+    <main class=" flex flex-col h-screen text-clr-txt text-xs w-auto">
         <div class="flex justify-between bg-clr-bg-prim">
             <div class="flex h-full">
                 <!-- TODO add Tab feat -->
@@ -38,11 +38,12 @@
             </div>
         </div>
 
-        <div class="flex flex-grow overflow-hidden  ">
-            <div class="flex flex-col  justify-between flex-grow h-full">
+        <div class="flex flex-grow overflow-hidden w-auto ">
+            <div class=" flex flex-col justify-between flex-grow h-full w-auto overflow-x-hidden">
                 <!-- OUTPUT -->
-
-                <div id="outputDiv" class="bg-clr-bg-thr m-2 p-2 rounded-sm overflow-y-scroll flex-grow">
+                <!-- TODO: the width scroll not working  -->
+                <div id="outputDiv"
+                    class="bg-clr-bg-thr m-2 p-2 rounded-sm overflow-y-scroll w-auto flex-grow">
                 </div>
 
                 <!-- INPUT -->
