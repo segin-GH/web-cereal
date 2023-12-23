@@ -1,3 +1,4 @@
+import serial.tools.list_ports
 import serial
 import time
 import kthread
@@ -91,14 +92,14 @@ class SerialPort:
 
 
 def get_available_ports():
+    # List all available serial ports
+    ports = serial.tools.list_ports.comports()
 
-    data = {
-        # TODO: get number of ports from the system and send it to the client
-        "ports": [
-            {"port": "/dev/ttyUSB0", "baudrate": 115200},
-            {"port": "/dev/ttyUSB1", "baudrate": 115200},
-            {"port": "/dev/ttyUSB3", "baudrate": 115200},
-        ]
-    }
+    # Check if there are any available ports
+    if not ports:
+        return {"ports": None}
+
+    # Format the ports information to only include the port names
+    data = {"ports": [{"port": port.device} for port in ports]}
 
     return data
