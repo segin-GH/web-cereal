@@ -1,11 +1,8 @@
-# app/__init__.py
-
 from flask import Flask
 from flask_cors import CORS
 from flask_socketio import SocketIO
 from config import Config
 
-# Create an un-initialized SocketIO instance
 socketio = SocketIO()
 
 
@@ -13,10 +10,8 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    # Enable CORS
     CORS(app)
 
-    # Initialize Flask-SocketIO with the app
     socketio.init_app(app, async_mode='eventlet', cors_allowed_origins="*")
 
     # Import and register your blueprints here to avoid circular imports

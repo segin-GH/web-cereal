@@ -93,6 +93,7 @@ class SerialPort:
 def get_available_ports():
 
     data = {
+        # TODO: get number of ports from the system and send it to the client
         "ports": [
             {"port": "/dev/ttyUSB0", "baudrate": 115200},
             {"port": "/dev/ttyUSB1", "baudrate": 115200},

@@ -1,7 +1,5 @@
 #! /usr/bin/python3
 
-# run.py
-
 from app import create_app, socketio
 from eventlet import monkey_patch
 

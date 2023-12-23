@@ -1,7 +1,4 @@
-# TODO: destroy the socket when close is requested
-# TODO: one thread per port
 # TODO: get number of ports from the system and send it to the client
-# TODO: run the therad if the data is being read from the port else suspend it
 
 import kthread
 import time
