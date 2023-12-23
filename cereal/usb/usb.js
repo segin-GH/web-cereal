@@ -36,27 +36,42 @@ export function attachUsbEventListenersButton() {
     const clearButton = document.getElementById('clearScreen');
     clearButton?.addEventListener('click', handleClearClick);
 
+    const toggleSideBarButton = document.getElementById('toggleSidebar');
+    toggleSideBarButton?.addEventListener('click', toggleSideBar);
+
     setupInputHandlers();
 
 }
 
+function toggleSideBar() {
+    var sidebar = document.getElementById('sidebar');
+    sidebar.classList.toggle('hidden');
+}
+
 // Function to fetch the list of available USB ports
-function fetchPortData() {
-    fetch('http://localhost:5000/usb/usb_port')
+async function fetchPortData() {
+    const data = await fetch('http://localhost:5000/usb/usb_port')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             return response.json();
         })
-        .then(data => updateDropdownPort(data.ports))
-        .catch(error => console.error('Error fetching data:', error));
+    updateDropdownPort(data.ports);
 }
 
 // Function to update the USB port dropdown
 function updateDropdownPort(ports) {
     const dropdown = document.querySelector('#dropdownUSB ul');
     dropdown.innerHTML = '';
+
+    if (ports === null || ports.length === 0) {
+        const listItem = document.createElement('li');
+        listItem.className = 'block px-4 py-2 hover:bg-clr-prim hover:text-white';
+        listItem.textContent = 'No ports found';
+        dropdown.appendChild(listItem);
+        return;
+    }
 
     ports.forEach(port => {
         const listItem = document.createElement('li');
@@ -144,18 +159,34 @@ function updateLineEnding() {
 }
 
 // Function to handle received data from serial pipe
+function escapeHtml(text) {
+    var map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+    };
+    return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+}
+
 function serialPortReceiveCallback(data) {
-    var newDataDiv = document.createElement('div');
-    newDataDiv.innerHTML = convertAnsiToHtml(data);
+    var newData = document.createElement('div');
+    newData.innerHTML = convertAnsiToHtml(escapeHtml(data));
+
+    // Add styles to wrap the text
+    newData.style.whiteSpace = 'pre-wrap';  // Corrected the property name
+    newData.style.overflowWrap = 'break-word';
 
     var outputDiv = document.getElementById('outputDiv');
-    outputDiv.appendChild(newDataDiv);
+    outputDiv.appendChild(newData);
 
     var autoScrollToggle = document.getElementById('autoScroll');
     if (autoScrollToggle && autoScrollToggle.checked) {
         outputDiv.scrollTop = outputDiv.scrollHeight;
     }
 }
+
 
 /* TODO: sometimes the ansi conversion does not work */
 function convertAnsiToHtml(ansiString) {
@@ -196,6 +227,9 @@ function handleConClick() {
         tabSerialPorts['tab1'].setCallbackForReceivedData(serialPortReceiveCallback);
         tabSerialPorts['tab1'].connectSerialPipe();
     }
+    else {
+        alert('Already connected ' + tabSerialPorts['tab1'].port);
+    }
 }
 
 // Function to handle close button click
@@ -203,8 +237,12 @@ function handleCloseClick() {
     if (tabSerialPorts['tab1']?.enabled) {
         tabSerialPorts['tab1'].serialDisconnect();
     }
+    else {
+        alert('Already disconnected');
+    }
 }
 
+/* TODO: make the input bux multi line */
 // Function to handle input box and send button
 function setupInputHandlers() {
     const inputBox = document.getElementById('inputBox');

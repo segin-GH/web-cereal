@@ -6,6 +6,7 @@
 /* Custom Scrollbar Styles for #outputDiv */
 #outputDiv::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
     /* Width of the scrollbar */
 }
 

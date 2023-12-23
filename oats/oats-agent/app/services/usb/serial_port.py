@@ -1,3 +1,4 @@
+import serial.tools.list_ports
 import serial
 import time
 import kthread
@@ -60,10 +61,14 @@ class SerialPort:
         if self.serial_conn and self.serial_conn.is_open:
             self.serial_conn.close()
 
+    def close_serial(self):
+        if self.serial_conn and self.serial_conn.is_open:
+            self.serial_conn.close()
+
     def read_data(self):
         while self.enabled:
             try:
-                while self.serial_conn.in_waiting:
+                while self.serial_conn.in_waiting > 0:
                     reading = self.serial_conn.readline().decode().strip()
                     socketio.emit('usb_data', {'data': reading})
             except serial.SerialTimeoutException:
@@ -75,7 +80,13 @@ class SerialPort:
             except UnicodeDecodeError:
                 # Handle decoding error, for example, when invalid bytes are received
                 print("Decoding error occurred. Invalid byte sequence received.")
-                # TODO: handle error when the device is disconnected
+            except IOError as e:
+                # Handle I/O errors, such as device disconnection
+                if e.errno == 5:
+                    socketio.emit('disconnect_request', {'data': 'disconnect'})
+                    print("I/O Error: Device might have been disconnected.")
+                    self.enabled = False
+                    self.close_serial()
             except Exception as e:
                 # Handle any other unexpected errors
                 print(f"Unexpected error during read: {e}")
@@ -91,13 +102,14 @@ class SerialPort:
 
 
 def get_available_ports():
+    # List all available serial ports
+    ports = serial.tools.list_ports.comports()
 
-    data = {
-        "ports": [
-            {"port": "/dev/ttyUSB0", "baudrate": 115200},
-            {"port": "/dev/ttyUSB1", "baudrate": 115200},
-            {"port": "/dev/ttyUSB3", "baudrate": 115200},
-        ]
-    }
+    # Check if there are any available ports
+    if not ports:
+        return {"ports": None}
+
+    # Format the ports information to only include the port names
+    data = {"ports": [{"port": port.device} for port in ports]}
 
     return data
