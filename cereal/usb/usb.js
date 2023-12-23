@@ -156,6 +156,10 @@ function serialPortReceiveCallback(data) {
     var newDataDiv = document.createElement('div');
     newDataDiv.innerHTML = convertAnsiToHtml(data);
 
+    // Add styles to wrap the text
+    newDataDiv.style.whiteSpace = 'pre-wrap'; // Or 'normal', based on your specific need
+    newDataDiv.style.overflowWrap = 'break-word';
+
     var outputDiv = document.getElementById('outputDiv');
     outputDiv.appendChild(newDataDiv);
 
@@ -164,6 +168,9 @@ function serialPortReceiveCallback(data) {
         outputDiv.scrollTop = outputDiv.scrollHeight;
     }
 }
+
+
+
 
 /* TODO: sometimes the ansi conversion does not work */
 function convertAnsiToHtml(ansiString) {
