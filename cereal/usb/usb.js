@@ -49,22 +49,29 @@ function toggleSideBar() {
 }
 
 // Function to fetch the list of available USB ports
-function fetchPortData() {
-    fetch('http://localhost:5000/usb/usb_port')
+async function fetchPortData() {
+    const data = await fetch('http://localhost:5000/usb/usb_port')
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             return response.json();
         })
-        .then(data => updateDropdownPort(data.ports))
-        .catch(error => console.error('Error fetching data:', error));
+    updateDropdownPort(data.ports);
 }
 
 // Function to update the USB port dropdown
 function updateDropdownPort(ports) {
     const dropdown = document.querySelector('#dropdownUSB ul');
     dropdown.innerHTML = '';
+
+    if (ports === null || ports.length === 0) {
+        const listItem = document.createElement('li');
+        listItem.className = 'block px-4 py-2 hover:bg-clr-prim hover:text-white';
+        listItem.textContent = 'No ports found';
+        dropdown.appendChild(listItem);
+        return;
+    }
 
     ports.forEach(port => {
         const listItem = document.createElement('li');
