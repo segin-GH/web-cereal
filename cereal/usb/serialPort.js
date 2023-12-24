@@ -10,7 +10,7 @@ export class SerialPort {
         this.enabledTimeStamps = false;
         this.socket = null;
         this.dataCallback = dataCallback;
-        this.id = null;
+        this.id = id; // id for the tab, only required for multiple tabs
 
     }
 
