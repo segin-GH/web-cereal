@@ -9,12 +9,12 @@ class OatsUSB:
         self.oats_usb_dict = {}
         logger.debug("OatsUSB instance.")
 
-    def get_port(self):
+    def get_port_data_for_client(self):
         ports = sp.get_available_ports()
         logger.info(f"Available ports: {ports}")
         return ports
 
-    def process_req(self, conf):
+    def process_req_from_client(self, conf):
         conf_id = conf['id']
         logger.info(f"Processing request for id: {conf_id}")
         if conf_id not in self.oats_usb_dict:
@@ -38,8 +38,8 @@ class OatsUSB:
         logger.debug(f"Configuration for id {conf_id}:\n {conf_json}")
         return conf_json
 
-    def send_data(self, data):
-        if 'tab1' in self.oats_usb_dict:
+    def send_data_to_serial(self, data, id='tab1'):
+        if id in self.oats_usb_dict:
             self.oats_usb_dict['tab1'].write_data(data)
         else:
             logger.warning(

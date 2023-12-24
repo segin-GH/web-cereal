@@ -13,7 +13,7 @@ bp = Blueprint('usb', __name__, url_prefix='/usb')
 def handle_message(message):
     logger.info(f'Received USB data: {message}')
     try:
-        oats_usb.send_data(message)
+        oats_usb.send_data_to_serial(message)
         logger.info('Data sent successfully')
     except Exception as e:
         logger.error(f'Error sending data: {e}', exc_info=True)
@@ -22,7 +22,7 @@ def handle_message(message):
 @bp.route('/usb_port', methods=['GET'])
 def get_data():
     try:
-        data = oats_usb.get_port()
+        data = oats_usb.get_port_data_for_client()
         logger.info(f'USB port data: {data}')
         return jsonify(data)
     except Exception as e:
@@ -35,7 +35,7 @@ def usb_conf():
     try:
         request_data = request.get_json()
         logger.info(f'Received configuration request: {request_data}')
-        data = oats_usb.process_req(request_data)
+        data = oats_usb.process_req_from_client(request_data)
         return jsonify(data)
     except Exception as e:
         logger.error(f'Error processing USB configuration: {e}', exc_info=True)
