@@ -1,26 +1,42 @@
-# TODO: get number of ports from the system and send it to the client
-
-import kthread
-import time
+import logging
 from app import socketio
 from flask import Blueprint, jsonify, request
 from app.services.usb.oats_usb import oats_usb
+
+# Assuming logging is configured externally
+logger = logging.getLogger(__name__)
 
 bp = Blueprint('usb', __name__, url_prefix='/usb')
 
 
 @socketio.on('usb_data')
 def handle_message(message):
-    oats_usb.send_data(message)
+    logger.info(f'Received USB data: {message}')
+    try:
+        oats_usb.send_data(message)
+        logger.info('Data sent successfully')
+    except Exception as e:
+        logger.error(f'Error sending data: {e}', exc_info=True)
 
 
 @bp.route('/usb_port', methods=['GET'])
 def get_data():
-    data = oats_usb.get_port()
-    return jsonify(data)
+    try:
+        data = oats_usb.get_port()
+        logger.info(f'USB port data: {data}')
+        return jsonify(data)
+    except Exception as e:
+        logger.error(f'Error getting USB port data: {e}', exc_info=True)
+        return jsonify({'error': str(e)}), 500
 
 
 @bp.route('/usb_conf', methods=['POST'])
 def usb_conf():
-    data = oats_usb.process_req(request.get_json())
-    return jsonify(data)
+    try:
+        request_data = request.get_json()
+        logger.info(f'Received configuration request: {request_data}')
+        data = oats_usb.process_req(request_data)
+        return jsonify(data)
+    except Exception as e:
+        logger.error(f'Error processing USB configuration: {e}', exc_info=True)
+        return jsonify({'error': str(e)}), 500
