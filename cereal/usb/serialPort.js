@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
 
+
 export class SerialPort {
     constructor(port, baudrate = 115200, endline = '\n', dataCallback = null, id = null) {
         this.enabled = false;
@@ -56,7 +57,7 @@ export class SerialPort {
     async serialConnect() {
         this.enabled = true;
         try {
-            const response = await fetch('http://localhost:5000/usb/usb_conf', {
+            const response = await fetch(`${import.meta.env.VITE_FETCH_BASE_URL}/usb/usb_conf`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -76,7 +77,7 @@ export class SerialPort {
         this.enabled = false;
         /* TODO disconnect from socket */
         try {
-            const response = await fetch('http://localhost:5000/usb/usb_conf', {
+            const response = await fetch(`${import.meta.env.VITE_FETCH_BASE_URL}/usb/usb_conf`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -95,7 +96,7 @@ export class SerialPort {
         if (this.socket) {
             return;
         }
-        this.socket = io.connect('ws://localhost:5000');
+        this.socket = io.connect(import.meta.env.VITE_SOCKET_URL);
         this.socket.on('usb_data', this.#onSerialPipeReceivedData.bind(this));
         this.socket.on('disconnect_request', this.#onSerialPipeDisconnectRequest.bind(this));
     }
