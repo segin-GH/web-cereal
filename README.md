@@ -18,12 +18,7 @@ cd cereal
 ```
 npm install
 ```
-3. Install tailwind.
-```
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-```
-4. Run your server.
+3. Run your server.
 ```
 npm run dev
 ```
