@@ -3,7 +3,6 @@ from app import socketio
 from flask import Blueprint, jsonify, request
 from app.services.usb.oats_usb import oats_usb
 
-# Assuming logging is configured externally
 logger = logging.getLogger(__name__)
 
 bp = Blueprint('usb', __name__, url_prefix='/usb')

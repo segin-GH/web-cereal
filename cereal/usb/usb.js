@@ -50,7 +50,7 @@ function toggleSideBar() {
 
 // Function to fetch the list of available USB ports
 async function fetchPortData() {
-    const data = await fetch('http://localhost:5000/usb/usb_port')
+    const data = await fetch(`${import.meta.env.VITE_FETCH_BASE_URL}/usb/usb_port`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
