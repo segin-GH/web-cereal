@@ -1,6 +1,7 @@
 # WEB CEREAL
 
-![cereal-scc](https://github.com/segin-GH/web-cereal/assets/98380527/3a3a90dd-89d9-4376-b66c-297536b28a87)
+![cereal-scc2](https://github.com/segin-GH/web-cereal/assets/98380527/b0314f50-1c09-4c0d-90fc-e6041abff6bd)
+
 
 
 ### INTRODUCTION
@@ -17,12 +18,7 @@ cd cereal
 ```
 npm install
 ```
-3. Install tailwind.
-```
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-```
-4. Run your server.
+3. Run your server.
 ```
 npm run dev
 ```
