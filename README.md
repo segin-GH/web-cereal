@@ -5,11 +5,35 @@
 
 
 ### INTRODUCTION
-Web Cereal get your cereal in web fast and light weight.
+Web Cereal get your serial in web fast and light weight.
 
-### SETUP ( DEV )
+### Getting Started
+1. clone this repo
+	```
+	git clone https://github.com/segin-GH/web-cereal.git
+	```
+2. Run frontend 
+	```
+	cd  cereal;
+	npm install;
+	npm run dev;
+	``` 
+3. Run Oats(serial agent)
+	```
+	cd oats;
+	./dist/oats-agent/oats-agent;
+	```
+4. Logs
+	```
+	cd logs
+	```
+	
+
+
+### Setup ( DEV )
 Node required `v20.10.0` [install node](https://github.com/nodesource/distributions).
 
+#### Front-end 
 1. Move into cereal folder.
 ```
 cd cereal
@@ -22,3 +46,21 @@ npm install
 ```
 npm run dev
 ```
+#### Back-end 
+
+4. Move to oats
+	```
+	cd oats/oats-agent
+	```
+5. Install Requirement for oats
+	```
+	pip install requirements.txt
+	```
+6. Run oats
+	```
+	./run.py
+	```
+7. Logs
+	```
+	cd logs
+	```
