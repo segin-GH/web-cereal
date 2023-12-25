@@ -1,0 +1,7 @@
+eventlet==0.34.2
+Flask==3.0.0
+Flask_Cors==4.0.0
+Flask_SocketIO==5.3.6
+kthread==0.2.3
+pyserial==3.5
+python-socketio==5.10.0
