@@ -53,12 +53,5 @@ class OatsUSB:
         logger.info(f"Disabled SerialPort for id: {conf_id}")
         return self.oats_usb_dict[conf_id].get_conf_json(), conf_id
 
-    def send_data_to_serial(self, data, id="1"):
-        if id in self.oats_usb_dict:
-            self.oats_usb_dict[id].write_data(data)
-        else:
-            logger.warning(
-                "Attempted to send data to serial, but 'tab1' is not in oats_usb_dict")
-
 
 oats_usb = OatsUSB()
