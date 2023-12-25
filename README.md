@@ -49,18 +49,18 @@ npm run dev
 #### Back-end 
 
 4. Move to oats
-	```
-	cd oats/oats-agent
-	```
-5. Install Requirement for oats
-	```
-	pip install requirements.txt
-	```
-6. Run oats
-	```
-	./run.py
-	```
-7. Logs
-	```
-	cd logs
-	```
+```
+cd oats/oats-agent
+```
+6. Install Requirement for oats
+```
+pip install requirements.txt
+```
+7. Run oats
+```
+./run.py
+```
+8. Logs
+```
+cd logs
+```
