@@ -32,7 +32,8 @@ class OatsUSB:
             self.oats_usb_dict[conf_id] = sp.SerialPort(
                 request['port'], request['baudrate'], request['endline'])
             logger.info(f"Created new SerialPort for id: {conf_id}")
-            self.oats_usb_dict[conf_id].socket_wrap = sw(socketio, 'usb_data')
+            self.oats_usb_dict[conf_id].socket_wrap = sw(
+                socketio, (f"tab_{conf_id}"))
             self.oats_usb_dict[conf_id].socket_wrap.on_event(
                 self.oats_usb_dict[conf_id].write_data)
         else:

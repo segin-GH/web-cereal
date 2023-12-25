@@ -11,6 +11,7 @@ export class SerialPort {
         this.socket = null;
         this.dataCallback = dataCallback;
         this.id = id; // id for the tab, only required for multiple tabs
+        this.socketType = null;
 
     }
 
@@ -74,6 +75,7 @@ export class SerialPort {
             console.log('ID:', recvData.uuid);
             this.id = recvData.uuid;
             this.updateSerialPortConfig(recvData.data);
+            this.connectSerialPipe();
         } catch (error) {
             console.error('Error in Serial Connect:', error);
             this.enabled = false;
@@ -107,8 +109,11 @@ export class SerialPort {
         if (this.socket) {
             return;
         }
+
         this.socket = io.connect(import.meta.env.VITE_SOCKET_URL);
-        this.socket.on('usb_data', this.#onSerialPipeReceivedData.bind(this));
+        this.socketType = 'tab_' + this.id;
+        console.log('Connecting to tab_' + this.socketType);
+        this.socket.on(this.socketType, this.#onSerialPipeReceivedData.bind(this));
         this.socket.on('disconnect_request', this.#onSerialPipeDisconnectRequest.bind(this));
     }
 
@@ -136,7 +141,7 @@ export class SerialPort {
     }
 
     #sendDataThroughSerialPipe(data) {
-        this.socket.emit('usb_data', { data: data });
+        this.socket.emit(this.socketType, { data: data });
     }
 
 

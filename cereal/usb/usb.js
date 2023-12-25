@@ -86,6 +86,7 @@ function updateDropdownPort(ports) {
             if (tabSerialPorts['tab1']) {
                 // Update the existing instance's port
                 tabSerialPorts['tab1'].port = port.port;
+                tabSerialPorts['tab1'].getID();
             } else {
                 // Create a new SerialPort instance with default or existing baudrate and endline
                 tabSerialPorts['tab1'] = new SerialPort(port.port);
@@ -225,7 +226,6 @@ function handleConClick() {
     if (tabSerialPorts['tab1'] && !tabSerialPorts['tab1'].enabled) {
         tabSerialPorts['tab1'].serialConnect();
         tabSerialPorts['tab1'].setCallbackForReceivedData(serialPortReceiveCallback);
-        tabSerialPorts['tab1'].connectSerialPipe();
     }
     else {
         alert('Already connected ' + tabSerialPorts['tab1'].port);
