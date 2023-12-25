@@ -3,7 +3,7 @@ class SocketWrap:
     def __init__(self, socketio, event_name: str):
         self.event_name = event_name
         self.socketio = socketio
-        self.enabled = False
+        self.enabled = True
 
     def on_event(self, func):
         if self.enabled:

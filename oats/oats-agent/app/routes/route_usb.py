@@ -8,16 +8,6 @@ logger = setup_logger(__name__)
 bp = Blueprint('usb', __name__, url_prefix='/usb')
 
 
-@socketio.on('usb_data')
-def handle_message(message):
-    logger.info(f'Received USB data: {message}')
-    try:
-        oats_usb.send_data_to_serial(message)
-        logger.info('Data sent successfully')
-    except Exception as e:
-        logger.error(f'Error sending data: {e}', exc_info=True)
-
-
 @bp.route('/usb_port', methods=['GET'])
 def get_data():
     try:

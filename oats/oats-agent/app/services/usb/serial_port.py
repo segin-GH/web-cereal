@@ -1,9 +1,10 @@
+import socketio
 import serial.tools.list_ports
 import serial
 import time
 import kthread
-from app import socketio
 from app.utils.logger_conf import setup_logger
+
 
 logger = setup_logger(__name__)
 
@@ -17,6 +18,7 @@ class SerialPort:
         self.enabled_timestamp = False
         self.read_thread = None
         self.serial_conn = None
+        self.socket_wrap = None
         logger.info(
             f"SerialPort initialized with port: {port}, baudrate: {baudrate}")
 
@@ -26,6 +28,8 @@ class SerialPort:
             self.read_thread.kill()
         if self.serial_conn and self.serial_conn.is_open:
             self.serial_conn.close()
+        if self.socket_wrap:
+            self.socket_wrap.turn_off()
         logger.info("SerialPort instance deleted")
 
     def update_conf(self, port, baudrate=115200, endline='\n'):
@@ -76,7 +80,8 @@ class SerialPort:
             try:
                 while self.serial_conn.in_waiting > 0:
                     reading = self.serial_conn.readline().decode().strip()
-                    socketio.emit('usb_data', {'data': reading})
+                    # socketio.emit('usb_data', {'data': reading})
+                    self.socket_wrap.emit_data({'data': reading})
             except serial.SerialTimeoutException:
                 logger.warning("Timeout occurred during read operation.")
             except serial.SerialException as e:
@@ -90,6 +95,7 @@ class SerialPort:
                 if e.errno == 5:
                     logger.error(
                         "I/O Error: Device might have been disconnected.")
+                    # TODO: socket wrap for disconnect
                     socketio.emit('disconnect_request', {'data': 'disconnect'})
                     self.enabled = False
                     self.close_serial()

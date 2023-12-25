@@ -1,5 +1,7 @@
+from app import socketio
 import app.services.usb.serial_port as sp
 from app.utils.logger_conf import setup_logger
+from app.utils.socket_wrap import SocketWrap as sw
 
 logger = setup_logger(__name__)
 
@@ -26,9 +28,13 @@ class OatsUSB:
 
         logger.info(f"Processing connect request for id: {conf_id}")
         if conf_id not in self.oats_usb_dict:
+            # Create a new SerialPort instance and assign a socket wrap
             self.oats_usb_dict[conf_id] = sp.SerialPort(
                 request['port'], request['baudrate'], request['endline'])
             logger.info(f"Created new SerialPort for id: {conf_id}")
+            self.oats_usb_dict[conf_id].socket_wrap = sw(socketio, 'usb_data')
+            self.oats_usb_dict[conf_id].socket_wrap.on_event(
+                self.oats_usb_dict[conf_id].write_data)
         else:
             self.oats_usb_dict[conf_id].update_conf(
                 request['port'], request['baudrate'], request['endline'])
