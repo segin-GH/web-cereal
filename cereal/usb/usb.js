@@ -89,7 +89,7 @@ function updateDropdownPort(ports) {
             } else {
                 // Create a new SerialPort instance with default or existing baudrate and endline
                 tabSerialPorts['tab1'] = new SerialPort(port.port);
-                tabSerialPorts['tab1'].setID('tab1');
+                tabSerialPorts['tab1'].getID();
             }
             console.log('Current state of tab1:', tabSerialPorts['tab1']);
 
@@ -116,7 +116,6 @@ function updateBaudRate() {
         listItem.addEventListener('click', function () {
             document.getElementById('dropdownBaudRateText').textContent = baudRate;
 
-            // Assuming tab1 is always the current tab]
             tabSerialPorts['tab1']?.changeBaudrate(baudRate);
             console.log('Baud rate updated in tab1:', tabSerialPorts['tab1']);
         });

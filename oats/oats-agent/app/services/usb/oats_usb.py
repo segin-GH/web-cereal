@@ -21,7 +21,7 @@ class OatsUSB:
 
     def process_connect_request(self, request):
         conf_id = request['id']
-        if conf_id == 'tab1':  # TODO"tab1", really? ever heard of meaningful names?
+        if (conf_id == None):
             conf_id = self.oats_get_uuid()
 
         logger.info(f"Processing connect request for id: {conf_id}")
@@ -41,9 +41,7 @@ class OatsUSB:
     def process_disconnect_request(self, request):
         conf_id = request['id']
         if conf_id not in self.oats_usb_dict:
-            # Nice error handling
-            raise ValueError(
-                "Trying to disconnect a non-existent connection. Good job.")
+            return None, None
 
         self.oats_usb_dict[conf_id].turn_off()
         logger.info(f"Disabled SerialPort for id: {conf_id}")
