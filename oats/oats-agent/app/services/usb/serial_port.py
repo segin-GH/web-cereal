@@ -1,8 +1,12 @@
+import socketio
 import serial.tools.list_ports
 import serial
 import time
 import kthread
-from app import socketio
+from app.utils.logger_conf import setup_logger
+
+
+logger = setup_logger(__name__)
 
 
 class SerialPort:
@@ -14,13 +18,19 @@ class SerialPort:
         self.enabled_timestamp = False
         self.read_thread = None
         self.serial_conn = None
+        self.socket_wrap = None
+        logger.info(
+            f"SerialPort initialized with port: {port}, baudrate: {baudrate}")
 
     def __del__(self):
         self.enabled = False
-        if self.read_thread.is_alive() and self.read_thread is not None:
+        if self.read_thread and self.read_thread.is_alive():
             self.read_thread.kill()
         if self.serial_conn and self.serial_conn.is_open:
             self.serial_conn.close()
+        if self.socket_wrap:
+            self.socket_wrap.turn_off()
+        logger.info("SerialPort instance deleted")
 
     def update_conf(self, port, baudrate=115200, endline='\n'):
         self.port = port
@@ -42,9 +52,9 @@ class SerialPort:
             try:
                 self.serial_conn.write(data.encode())
             except serial.SerialException as e:
-                print(f"Serial exception during write: {e}")
+                logger.error(f"Serial exception during write: {e}")
             except Exception as e:
-                print(f"Unexpected error during write: {e}")
+                logger.error(f"Unexpected error during write: {e}")
 
     def turn_on(self):
         # TODO handle the case when the port is not available
@@ -70,26 +80,31 @@ class SerialPort:
             try:
                 while self.serial_conn.in_waiting > 0:
                     reading = self.serial_conn.readline().decode().strip()
-                    socketio.emit('usb_data', {'data': reading})
+                    # socketio.emit('usb_data', {'data': reading})
+                    self.socket_wrap.emit_data({'data': reading})
             except serial.SerialTimeoutException:
-                # Handle timeout exception
-                print("Timeout occurred during read operation.")
+                logger.warning("Timeout occurred during read operation.")
             except serial.SerialException as e:
-                # Handle other serial exceptions
-                print(f"Serial exception during read: {e}")
+                logger.error(f"Serial exception during read: {e}")
+                self.enabled = False
+                self.close_serial()
             except UnicodeDecodeError:
-                # Handle decoding error, for example, when invalid bytes are received
-                print("Decoding error occurred. Invalid byte sequence received.")
+                logger.warning(
+                    "Decoding error occurred. Invalid byte sequence received.")
             except IOError as e:
-                # Handle I/O errors, such as device disconnection
                 if e.errno == 5:
+                    logger.error(
+                        "I/O Error: Device might have been disconnected.")
+                    # TODO: socket wrap for disconnect
                     socketio.emit('disconnect_request', {'data': 'disconnect'})
-                    print("I/O Error: Device might have been disconnected.")
                     self.enabled = False
                     self.close_serial()
+                else:
+                    logger.error(f"IOError during read: {e}")
             except Exception as e:
-                # Handle any other unexpected errors
-                print(f"Unexpected error during read: {e}")
+                logger.error(f"Unexpected error during read: {e}")
+                self.enabled = False
+                self.close_serial()
             time.sleep(0.1)
 
     def get_conf_json(self):

@@ -50,14 +50,15 @@ function toggleSideBar() {
 
 // Function to fetch the list of available USB ports
 async function fetchPortData() {
-    const data = await fetch('http://localhost:5000/usb/usb_port')
+    const data = await fetch(`${import.meta.env.VITE_FETCH_BASE_URL}/usb/usb_port`)
         .then(response => {
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
             return response.json();
         })
-    updateDropdownPort(data.ports);
+    console.log('Success:', data);
+    updateDropdownPort(data.ports.ports);
 }
 
 // Function to update the USB port dropdown
@@ -85,10 +86,11 @@ function updateDropdownPort(ports) {
             if (tabSerialPorts['tab1']) {
                 // Update the existing instance's port
                 tabSerialPorts['tab1'].port = port.port;
+                tabSerialPorts['tab1'].getID();
             } else {
                 // Create a new SerialPort instance with default or existing baudrate and endline
                 tabSerialPorts['tab1'] = new SerialPort(port.port);
-                tabSerialPorts['tab1'].setID('tab1');
+                tabSerialPorts['tab1'].getID();
             }
             console.log('Current state of tab1:', tabSerialPorts['tab1']);
 
@@ -115,7 +117,6 @@ function updateBaudRate() {
         listItem.addEventListener('click', function () {
             document.getElementById('dropdownBaudRateText').textContent = baudRate;
 
-            // Assuming tab1 is always the current tab]
             tabSerialPorts['tab1']?.changeBaudrate(baudRate);
             console.log('Baud rate updated in tab1:', tabSerialPorts['tab1']);
         });
@@ -225,7 +226,6 @@ function handleConClick() {
     if (tabSerialPorts['tab1'] && !tabSerialPorts['tab1'].enabled) {
         tabSerialPorts['tab1'].serialConnect();
         tabSerialPorts['tab1'].setCallbackForReceivedData(serialPortReceiveCallback);
-        tabSerialPorts['tab1'].connectSerialPipe();
     }
     else {
         alert('Already connected ' + tabSerialPorts['tab1'].port);
