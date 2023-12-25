@@ -57,7 +57,8 @@ async function fetchPortData() {
             }
             return response.json();
         })
-    updateDropdownPort(data.ports);
+    console.log('Success:', data);
+    updateDropdownPort(data.ports.ports);
 }
 
 // Function to update the USB port dropdown

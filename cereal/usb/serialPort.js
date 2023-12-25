@@ -54,19 +54,26 @@ export class SerialPort {
         this.id = null;
     }
 
+    getID() {
+        return this.id;
+    }
+
     async serialConnect() {
         this.enabled = true;
         try {
-            const response = await fetch(`${import.meta.env.VITE_FETCH_BASE_URL}/usb/usb_conf`, {
+            const response = await fetch(`${import.meta.env.VITE_FETCH_BASE_URL}/usb/usb_connect`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: this.getSeralPortConfigJSON(),
+                body: this.getSerialPortConfigJSON(),
             });
-            const data = await response.json();
-            console.log('Success:', data);
-            alert('Connected to ' + data.port);
+            const recvData = await response.json();
+            console.log('Success:', recvData);
+            alert('Connected to ' + recvData.data.port);
+            console.log('ID:', recvData.uuid);
+            this.id = recvData.uuid;
+            this.updateSerialPortConfig(recvData.data);
         } catch (error) {
             console.error('Error in Serial Connect:', error);
             this.enabled = false;
@@ -74,19 +81,23 @@ export class SerialPort {
     }
 
     async serialDisconnect() {
+        if (this.getID() < 0) {
+            console.error('No device id set for disconnect');
+            return;
+        }
         this.enabled = false;
-        /* TODO disconnect from socket */
         try {
-            const response = await fetch(`${import.meta.env.VITE_FETCH_BASE_URL}/usb/usb_conf`, {
+            console.log('Disconnecting from ' + this.port + ' with id ' + this.id);
+            const response = await fetch(`${import.meta.env.VITE_FETCH_BASE_URL}/usb/usb_disconnect`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: this.getSeralPortConfigJSON(),
+                body: this.getSerialPortConfigJSON(),
             });
-            const data = await response.json();
-            alert('Disconnected from ' + data.port);
-            console.log('Success:', data);
+            const recvData = await response.json();
+            alert('Disconnected from ' + recvData.data.port);
+            console.log('Success:', recvData);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -129,7 +140,7 @@ export class SerialPort {
     }
 
 
-    getSeralPortConfigJSON() {
+    getSerialPortConfigJSON() {
         return JSON.stringify({
             id: this.id,
             enabled: this.enabled,
@@ -138,6 +149,12 @@ export class SerialPort {
             endline: this.endline,
             enabledTimeStamps: this.enabledTimeStamps,
         });
+    }
+
+    updateSerialPortConfig(configData) {
+        this.port = configData.port;
+        this.baudrate = configData.baudrate;
+        this.endline = configData.endline;
     }
 
 }
