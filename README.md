@@ -9,24 +9,24 @@ Web Cereal get your serial in web fast and light weight.
 
 ### Getting Started
 1. clone this repo
-	```
-	git clone https://github.com/segin-GH/web-cereal.git
-	```
+```
+git clone https://github.com/segin-GH/web-cereal.git
+```
 2. Run frontend 
-	```
-	cd  cereal;
-	npm install;
-	npm run dev;
-	``` 
+```
+cd  cereal;
+npm install;
+npm run dev;
+``` 
 3. Run Oats(serial agent)
-	```
-	cd oats;
-	./dist/oats-agent/oats-agent;
-	```
+```
+cd oats;
+./dist/oats-agent/oats-agent;
+```
 4. Logs
-	```
-	cd logs
-	```
+```
+cd logs
+```
 	
 
 
