@@ -1,5 +1,6 @@
 // main.js
 import { attachUsbEventListeners, attachUsbEventListenersButton } from './usb/usb.js';
+import './style.css';
 
 function loadContent(page) {
   fetch(`${page}.html`)
