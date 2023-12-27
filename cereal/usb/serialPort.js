@@ -110,7 +110,12 @@ export class SerialPort {
             return;
         }
 
-        this.socket = io.connect(import.meta.env.VITE_SOCKET_URL);
+        this.socket = io(`${import.meta.env.VITE_FETCH_BASE_URL}`, {
+            withCredentials: true,
+            extraHeaders: {
+                "my-custom-header": "abcd"
+            }
+        });
         this.socketType = 'tab_' + this.id;
         console.log('Connecting to tab_' + this.socketType);
         this.socket.on(this.socketType, this.#onSerialPipeReceivedData.bind(this));
