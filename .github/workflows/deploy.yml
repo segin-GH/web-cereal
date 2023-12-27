@@ -17,17 +17,21 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
 
+      - name: Change to project directory
+        run: cd cereal
+
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1
+        run: npm install
 
       - name: Build project
         run: npm run build
+        working-directory: cereal
 
       - name: Upload production-ready build files
         uses: actions/upload-artifact@v3
         with:
           name: production-files
-          path: .cereal/dist
+          path: cereal/dist
 
   deploy:
     name: Deploy
@@ -40,7 +44,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: production-files
-          path: ./cereal/dist
+          path: cereal/dist
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
