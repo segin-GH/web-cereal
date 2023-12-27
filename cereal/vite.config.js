@@ -7,10 +7,10 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        usb: resolve(__dirname, 'usb/index.html'),
-        ble: resolve(__dirname, 'ble/index.html'),
-        wifi: resolve(__dirname, 'wifi/index.html'),
-        mqtt: resolve(__dirname, 'mqtt/index.html'),
+        usb: resolve(__dirname, 'usb/usb.html'),
+        ble: resolve(__dirname, 'ble/ble.html'),
+        wifi: resolve(__dirname, 'wifi/wifi.html'),
+        mqtt: resolve(__dirname, 'mqtt/mqtt.html'),
       },
     },
   },
