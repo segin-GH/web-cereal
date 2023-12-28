@@ -5,7 +5,7 @@ from eventlet import monkey_patch
 from app.utils.logger_conf import setup_logger
 
 # Setup logger
-logger = setup_logger("run_py")
+logger = setup_logger(__name__)
 monkey_patch()
 
 # Create Flask app

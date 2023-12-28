@@ -9,9 +9,8 @@ socketio = SocketIO()
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
-
+    # TODO: Remove "*" from cors_allowed_origins and add the frontend url at production
     CORS(app, cors_allowed_origins="*")
-
     socketio.init_app(app, async_mode='eventlet', cors_allowed_origins="*")
 
     # Import and register your blueprints here to avoid circular imports
