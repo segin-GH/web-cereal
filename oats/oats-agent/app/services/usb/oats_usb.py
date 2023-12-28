@@ -45,15 +45,25 @@ class OatsUSB:
         logger.info(f"Enabled SerialPort for id: {conf_id}")
         return self.oats_usb_dict[conf_id].get_conf_json(), conf_id
 
-    def process_disconnect_request(self, request):
-        conf_id = request['id']
-        if conf_id not in self.oats_usb_dict:
-            return None, None
+    def process_disconnect_request(self, request_data):
+        try:
+            conf_id = request_data['id']
+            conf_id = conf_id[4:]
+        except KeyError:
+            logger.error("Request data does not contain 'id'")
+            raise ValueError("Invalid request data: 'id' not found")
 
-        self.oats_usb_dict[conf_id].turn_off()
-        self.oats_usb_dict[conf_id].__del__()
+        if conf_id not in self.oats_usb_dict:
+            logger.warning(f"ID {conf_id} not found in oats_usb_dict")
+            raise KeyError(f"ID {conf_id} not found")
+
+        usb_device = self.oats_usb_dict[conf_id]
+        usb_device.turn_off()
+
+        del self.oats_usb_dict[conf_id]
+
         logger.info(f"Disabled SerialPort for id: {conf_id}")
-        return self.oats_usb_dict[conf_id].get_conf_json(), conf_id
+        return usb_device.get_conf_json(), conf_id
 
 
 oats_usb = OatsUSB()

@@ -14,7 +14,7 @@ app = create_app()
 if __name__ == '__main__':
     try:
         logger.info("Starting the Flask-SocketIO server")
-        socketio.run(app)
+        socketio.run(app, debug=True)
         logger.info("Flask-SocketIO server stopped")
     except Exception as e:
         logger.error(f"An error occurred: {e}")

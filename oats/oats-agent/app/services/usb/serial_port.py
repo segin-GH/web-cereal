@@ -81,7 +81,6 @@ class SerialPort:
                 while self.serial_conn.in_waiting > 0:
                     # TODO not able to exit gracefully when the device is disconnected
                     reading = self.serial_conn.readline().decode().strip()
-                    # socketio.emit('usb_data', {'data': reading})
                     self.socket_wrap.emit_data({'data': reading})
             except serial.SerialTimeoutException:
                 logger.warning("Timeout occurred during read operation.")

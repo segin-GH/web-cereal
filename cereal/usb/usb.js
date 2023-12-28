@@ -39,6 +39,14 @@ export function attachUsbEventListenersButton() {
     const toggleSideBarButton = document.getElementById('toggleSidebar');
     toggleSideBarButton?.addEventListener('click', toggleSideBar);
 
+    window, onbeforeunload = function () {
+        if (tabSerialPorts['tab1']) {
+            console.log("User is leaving the page");
+            tabSerialPorts['tab1'].sendUserDeparture();
+            tabSerialPorts['tab1'].destroy();
+        }
+    }
+
     setupInputHandlers();
 
 }
