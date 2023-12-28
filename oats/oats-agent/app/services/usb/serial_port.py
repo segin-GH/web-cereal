@@ -17,7 +17,7 @@ class SerialPort:
         self.endline = endline
         self.enabled_timestamp = False
         self.read_thread = None
-        self.serial_conn = None
+        self.com_port = None
         self.socket_wrap = None
         logger.info(
             f"SerialPort initialized with port: {port}, baudrate: {baudrate}")
@@ -26,8 +26,8 @@ class SerialPort:
         self.enabled = False
         if self.read_thread and self.read_thread.is_alive():
             self.read_thread.kill()
-        if self.serial_conn and self.serial_conn.is_open:
-            self.serial_conn.close()
+        if self.com_port and self.com_port.is_open:
+            self.com_port.close()
         if self.socket_wrap:
             self.socket_wrap.turn_off()
         logger.info("SerialPort instance deleted")
@@ -47,40 +47,53 @@ class SerialPort:
         self.endline = new_endline
 
     def write_data(self, data):
-        if self.serial_conn and self.serial_conn.is_open:
+        if self.com_port and self.com_port.is_open:
             data = str(data)
             try:
-                self.serial_conn.write(data.encode())
+                self.com_port.write(data.encode())
             except serial.SerialException as e:
                 logger.error(f"Serial exception during write: {e}")
             except Exception as e:
                 logger.error(f"Unexpected error during write: {e}")
 
     def turn_on(self):
-        # TODO handle the case when the port is not available
-        self.serial_conn = serial.Serial(self.port, self.baudrate)
-        self.enabled = True
-        self.read_thread = kthread.KThread(
-            target=self.read_data,)
-        self.read_thread.start()
+        if self.com_port and self.com_port.is_open:
+            logger.warning("Serial port is already open.")
+            return
+
+        try:
+            self.com_port = serial.Serial(self.port, self.baudrate)
+            self.enabled = True
+        except serial.SerialException as e:
+            logger.error(f"Failed to open serial port: {e}")
+            self.enabled = False
+            return
+
+        # Now this check will not raise an AttributeError
+        if not self.read_thread or not self.read_thread.is_alive():
+            self.read_thread = kthread.KThread(target=self.read_data)
+            self.read_thread.start()
+            logger.info("Started the read thread.")
+        else:
+            logger.info("Read thread is already running.")
 
     def turn_off(self):
         self.enabled = False
         if self.read_thread and self.read_thread.is_alive():
             self.read_thread.join()
-        if self.serial_conn and self.serial_conn.is_open:
-            self.serial_conn.close()
+        if self.com_port and self.com_port.is_open:
+            self.com_port.close()
 
     def close_serial(self):
-        if self.serial_conn and self.serial_conn.is_open:
-            self.serial_conn.close()
+        if self.com_port and self.com_port.is_open:
+            self.com_port.close()
 
     def read_data(self):
         while self.enabled:
             try:
-                while self.serial_conn.in_waiting > 0:
+                while self.com_port.in_waiting > 0:
                     # TODO not able to exit gracefully when the device is disconnected
-                    reading = self.serial_conn.readline().decode().strip()
+                    reading = self.com_port.readline().decode().strip()
                     self.socket_wrap.emit_data({'data': reading})
             except serial.SerialTimeoutException:
                 logger.warning("Timeout occurred during read operation.")
