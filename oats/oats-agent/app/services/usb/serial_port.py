@@ -32,6 +32,16 @@ class SerialPort:
             self.socket_wrap.turn_off()
         logger.info("SerialPort instance deleted")
 
+    def destroy(self):
+        self.enabled = False
+        if self.read_thread and self.read_thread.is_alive():
+            self.read_thread.kill()
+        if self.com_port and self.com_port.is_open:
+            self.com_port.close()
+        if self.socket_wrap:
+            self.socket_wrap.turn_off()
+        logger.info("SerialPort instance deleted")
+
     def update_conf(self, port, baudrate=115200, endline='\n'):
         self.port = port
         self.baudrate = baudrate
@@ -59,7 +69,7 @@ class SerialPort:
     def turn_on(self):
         if self.com_port and self.com_port.is_open:
             logger.warning("Serial port is already open.")
-            return
+            self.com_port.close()
 
         try:
             self.com_port = serial.Serial(self.port, self.baudrate)
@@ -89,7 +99,7 @@ class SerialPort:
             self.com_port.close()
 
     def read_data(self):
-        while self.enabled:
+        while self.enabled and self.com_port and self.com_port.is_open:
             try:
                 while self.com_port.in_waiting > 0:
                     # TODO not able to exit gracefully when the device is disconnected
@@ -129,15 +139,36 @@ class SerialPort:
         }
 
 
-def get_available_ports():
-    # List all available serial ports
-    ports = serial.tools.list_ports.comports()
+class PortManager:
+    def __init__(self):
+        self.used_ports = set()
 
-    # Check if there are any available ports
-    if not ports:
-        return {"ports": None}
+    def get_ports(self):
+        """
+        List all available serial ports that are not in use (according to the internal record) and return them in a dictionary.
+        If no available ports are found, return None.
+        """
+        ports = serial.tools.list_ports.comports()
+        available_ports = [
+            {"port": port.device} for port in ports if port.device not in self.used_ports
+        ]
+        return {"ports": available_ports} if available_ports else {"ports": None}
 
-    # Format the ports information to only include the port names
-    data = {"ports": [{"port": port.device} for port in ports]}
+    def mark_port_as_used(self, port):
+        """
+        Mark the given port as used.
+        """
+        if port not in self.used_ports:
+            self.used_ports.add(port)
+        else:
+            logger.warning(f"Attempted to use an already used port: {port}")
 
-    return data
+    def mark_port_as_unused(self, port):
+        """
+        Mark the given port as unused.
+        """
+        if port in self.used_ports:
+            self.used_ports.remove(port)
+        else:
+            # Consider logging this as a warning or informational message
+            logger.warning(f"Attempted to free an unused port: {port}")
