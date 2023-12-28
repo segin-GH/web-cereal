@@ -51,6 +51,7 @@ class OatsUSB:
             return None, None
 
         self.oats_usb_dict[conf_id].turn_off()
+        self.oats_usb_dict[conf_id].__del__()
         logger.info(f"Disabled SerialPort for id: {conf_id}")
         return self.oats_usb_dict[conf_id].get_conf_json(), conf_id
 

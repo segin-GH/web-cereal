@@ -3,6 +3,8 @@ from logging.handlers import RotatingFileHandler
 import datetime
 import os
 
+# TODO change the format style it is shit
+
 
 class AnsiColorFormatter(logging.Formatter):
     COLORS = {

@@ -52,7 +52,8 @@ def handle_user_departure():
         user_id = data['userId']
 
         logger.info(f'User with ID {user_id} is departing')
-
+        # TODO: Handle user departure here clean up the data structures
+        # TODO: clean serial port and the id from the oats_usb_dict
         return jsonify({'message': 'User departure handled successfully'})
 
     except Exception as e:
