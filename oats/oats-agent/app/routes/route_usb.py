@@ -1,4 +1,3 @@
-from app import socketio
 from flask import Blueprint, jsonify, request
 from app.services.usb.oats_usb import oats_usb
 from app.utils.logger_conf import setup_logger
