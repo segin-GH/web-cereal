@@ -10,7 +10,7 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    CORS(app)
+    CORS(app, cors_allowed_origins="*")
 
     socketio.init_app(app, async_mode='eventlet', cors_allowed_origins="*")
 
