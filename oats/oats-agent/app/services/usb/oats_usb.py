@@ -42,6 +42,7 @@ class OatsUSB:
         else:
             self.oats_usb_dict[conf_id].update_conf(
                 request['port'], request['baudrate'], request['endline'])
+            self.port_manager.mark_port_as_used(request['port'])
             logger.info(f"Updated SerialPort for id: {conf_id}")
 
         self.oats_usb_dict[conf_id].turn_on()

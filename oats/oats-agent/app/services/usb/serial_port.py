@@ -102,7 +102,6 @@ class SerialPort:
         while self.enabled and self.com_port and self.com_port.is_open:
             try:
                 while self.com_port.in_waiting > 0:
-                    # TODO not able to exit gracefully when the device is disconnected
                     reading = self.com_port.readline().decode().strip()
                     self.socket_wrap.emit_data({'data': reading})
             except serial.SerialTimeoutException:
