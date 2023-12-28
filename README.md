@@ -5,7 +5,7 @@
 
 
 ### INTRODUCTION
-Web Cereal get your serial in web fast and light weight.
+Web Cereal get your serial in web fast and light weight. [find here](https://segin.in)
 
 ### Getting Started
 1. clone this repo
