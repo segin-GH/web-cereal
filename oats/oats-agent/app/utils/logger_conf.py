@@ -3,8 +3,6 @@ from logging.handlers import RotatingFileHandler
 import datetime
 import os
 
-# TODO change the format style it is shit
-
 
 class AnsiColorFormatter(logging.Formatter):
     COLORS = {
@@ -16,7 +14,9 @@ class AnsiColorFormatter(logging.Formatter):
     }
 
     def format(self, record):
-        log_fmt = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+        module_name = record.name.split('.')[-1]
+
+        log_fmt = f'[%(asctime)s][%(levelname)s]({module_name}) %(message)s'
         if record.levelname in self.COLORS:
             levelname_color = self.COLORS[record.levelname]
             log_fmt = f"{levelname_color}{log_fmt}\033[0m"
