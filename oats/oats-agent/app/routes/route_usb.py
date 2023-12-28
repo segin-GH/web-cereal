@@ -55,8 +55,9 @@ def user_departure():
         return jsonify({"error": "Invalid JSON data"}), 400
 
     try:
-        response_data, conf_id = oats_usb.process_disconnect_request(
+        response_data, conf_id = oats_usb.process_departure_request(
             request_data)
+        logger.info(f"User departure for id: {conf_id}")
         return jsonify(response_data), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500

@@ -45,7 +45,16 @@ class OatsUSB:
         logger.info(f"Enabled SerialPort for id: {conf_id}")
         return self.oats_usb_dict[conf_id].get_conf_json(), conf_id
 
-    def process_disconnect_request(self, request_data):
+    def process_disconnect_request(self, request):
+        conf_id = request['id']
+        if conf_id not in self.oats_usb_dict:
+            return None, None
+
+        self.oats_usb_dict[conf_id].turn_off()
+        logger.info(f"Disabled SerialPort for id: {conf_id}")
+        return self.oats_usb_dict[conf_id].get_conf_json(), conf_id
+
+    def process_departure_request(self, request_data):
         try:
             conf_id = request_data['id']
             conf_id = conf_id[4:]
