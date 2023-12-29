@@ -9,12 +9,12 @@ logger = setup_logger(__name__)
 monkey_patch()
 
 # Create Flask app
-app = create_app()
+app, port = create_app()
 
 if __name__ == '__main__':
     try:
         logger.info("Starting the Flask-SocketIO server")
-        socketio.run(app, debug=True)
+        socketio.run(app, port=port)
         logger.info("Flask-SocketIO server stopped")
     except Exception as e:
         logger.error(f"An error occurred: {e}")
