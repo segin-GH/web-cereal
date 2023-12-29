@@ -14,6 +14,8 @@ export function attachUsbEventListeners() {
     attachDropdownListener('dropdownUSBPort', 'dropdownUSB');
     attachDropdownListener('dropdownBaudRate', 'dropdownBaud');
     attachDropdownListener('dropdownLineEnding', 'dropdownLineEnd');
+
+
 }
 
 // Function to attach event listeners to the USB tab
@@ -47,6 +49,11 @@ export function attachUsbEventListenersButton() {
         }
     }
 
+    const closeModal = document.getElementById('closeModal');
+    closeModal?.addEventListener('click', function () {
+        document.getElementById('modal').classList.add('hidden');
+    });
+
     setupInputHandlers();
 
 }
@@ -58,16 +65,28 @@ function toggleSideBar() {
 
 // Function to fetch the list of available USB ports
 async function fetchPortData() {
-    const data = await fetch(`${import.meta.env.VITE_FETCH_BASE_URL}/usb/usb_port`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            return response.json();
-        })
-    console.log('Success:', data);
-    updateDropdownPort(data.ports.ports);
+    let modal = document.getElementById('modal'); // Ensure this ID matches your modal's ID
+
+    try {
+        const response = await fetch(`${import.meta.env.VITE_FETCH_BASE_URL}/usb/usb_port`);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Success:', data);
+        updateDropdownPort(data.ports.ports);
+    } catch (error) {
+        console.error("Error fetching ports:", error.message);
+        
+        // Display the modal on error
+        if (modal) {
+            modal.classList.remove('hidden');
+        }
+    }
 }
+
 
 // Function to update the USB port dropdown
 function updateDropdownPort(ports) {
