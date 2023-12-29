@@ -1,5 +1,4 @@
 **/build/**
 **/__pycache__/**
-**/_internal/**
 **/logs/**
 **/node_modules/**
