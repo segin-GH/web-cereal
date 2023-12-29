@@ -33,16 +33,28 @@ class OatsUSB:
             # Create a new SerialPort instance and assign a socket wrap
             self.oats_usb_dict[conf_id] = sp.SerialPort(
                 request['port'], request['baudrate'], request['endline'])
+            # Mark the port as used
             self.port_manager.mark_port_as_used(request['port'])
             logger.info(f"Created new SerialPort for id: {conf_id}")
+
+            # Create a new socket wrap
             self.oats_usb_dict[conf_id].socket_wrap = sw(
                 socketio, (f"tab_{conf_id}"))
+
+            # Register the socket wrap for write data to the serial port
             self.oats_usb_dict[conf_id].socket_wrap.on_event(
                 self.oats_usb_dict[conf_id].write_data)
         else:
+            # Update the SerialPort instance
             self.oats_usb_dict[conf_id].update_conf(
                 request['port'], request['baudrate'], request['endline'])
+
+            # Mark the port as used
             self.port_manager.mark_port_as_used(request['port'])
+
+            # Turn on the socket wrap
+            self.oats_usb_dict[conf_id].socket_wrap.turn_on()
+
             logger.info(f"Updated SerialPort for id: {conf_id}")
 
         self.oats_usb_dict[conf_id].turn_on()
@@ -56,11 +68,13 @@ class OatsUSB:
             return None, None
 
         logger.info(f"Processing disconnect request for id: {conf_id}")
+        self.oats_usb_dict[conf_id].turn_off()
+        logger.debug(f"Disabled SerialPort for id: {conf_id}")
+        self.oats_usb_dict[conf_id].destroy()
+        logger.debug(f"Destroyed SerialPort for id: {conf_id}")
         self.port_manager.mark_port_as_unused(
             self.oats_usb_dict[conf_id].port)
-        self.oats_usb_dict[conf_id].turn_off()
-        self.oats_usb_dict[conf_id].destroy()
-        logger.info(f"Disabled SerialPort for id: {conf_id}")
+        logger.debug(f"Disabled SerialPort for id: {conf_id}")
         return self.oats_usb_dict[conf_id].get_conf_json(), conf_id
 
     def process_departure_request(self, request_data):
