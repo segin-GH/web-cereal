@@ -9,6 +9,40 @@
 </head>
 
 <body class="w-auto">
+    <div id="modal" class="z-50 fixed hidden inset-0 bg-slate-600 bg-opacity-50 overflow-y-auto h-full w-full">
+        <div class="relative top-20 max-w-2xl mx-auto p-5  shadow-lg rounded-md h-6/12 bg-clr-prim">
+            <div class="flex justify-between items-center">
+                <div class="text-gray-300 font-medium text-lg">
+                    <ul>
+
+                        OATS OFFLINE !!
+                    </ul>
+                </div>
+                <button id="closeModal" class=" text-gray-200 font-bold hover:text-clr-accent">
+                    &#10005;
+                </button>
+            </div>
+            <div class="mt px-5 py-3">
+                <div class="text-gray-400 leading-loose">
+                    <li>Is OATS turned on ?</li>
+                    <li>
+                        Did you
+                        <a href="https://github.com/segin-GH/web-cereal/blob/main/oats/README.md#oats" class="text-blue-600 hover:text-blue-800">
+                            install
+                        </a>
+                        it ?
+                    </li>
+                    <li>
+                        Want to learn more about
+                        <a href="https://github.com/segin-GH/web-cereal/blob/main/README.md#web-cereal" class="text-blue-600 hover:text-blue-800">
+                            web-cereal
+                        </a> ?
+                    </li>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <main class=" flex flex-col h-screen text-clr-txt text-xs w-auto">
         <div class="flex justify-between bg-clr-bg-prim">
             <div class="flex h-full">
@@ -175,8 +209,8 @@
             </div>
         </div>
     </main>
-    <script type="module" src="./usb.js"></script>
 
+    <script type="module" src="./usb.js"></script>
 </body>
 
 </html>
