@@ -36,10 +36,11 @@ class SerialPort:
         self.enabled = False
         if self.read_thread and self.read_thread.is_alive():
             self.read_thread.kill()
-        if self.com_port and self.com_port.is_open:
-            self.com_port.close()
+            self.read_thread = None
+        self.close_serial()
         if self.socket_wrap:
             self.socket_wrap.turn_off()
+        # set all attributes to None
         logger.info("SerialPort instance deleted")
 
     def update_conf(self, port, baudrate=115200, endline='\n'):
@@ -55,6 +56,17 @@ class SerialPort:
 
     def set_endline(self, new_endline):
         self.endline = new_endline
+
+    def close_serial(self):
+        if self.com_port and self.com_port.is_open:
+            self.com_port.close()
+            self.com_port = None
+
+    def join_read_thread(self):
+        if self.read_thread and self.read_thread.is_alive():
+            self.read_thread.join()
+            self.read_thread = None
+        logger.debug("Stopped the read thread. Look, no deadlock!")
 
     def write_data(self, data):
         if self.com_port and self.com_port.is_open:
@@ -89,19 +101,19 @@ class SerialPort:
 
     def turn_off(self):
         self.enabled = False
-        if self.read_thread and self.read_thread.is_alive():
-            self.read_thread.join()
-        if self.com_port and self.com_port.is_open:
-            self.com_port.close()
-
-    def close_serial(self):
-        if self.com_port and self.com_port.is_open:
-            self.com_port.close()
+        logger.debug("Disabled the serial port.")
+        self.join_read_thread()
+        self.close_serial()
+        logger.debug("Closed the serial port.")
+        if self.socket_wrap:
+            self.socket_wrap.turn_off()
+        logger.debug("Turned off the socket wrap.")
 
     def read_data(self):
-        while self.enabled and self.com_port and self.com_port.is_open:
+        while self.enabled:
+            self.com_port.timeout = 0.1
             try:
-                while self.com_port.in_waiting > 0:
+                while self.com_port.in_waiting:
                     reading = self.com_port.readline().decode().strip()
                     self.socket_wrap.emit_data({'data': reading})
             except serial.SerialTimeoutException:

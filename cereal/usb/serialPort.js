@@ -117,7 +117,7 @@ export class SerialPort {
             }
         });
         this.socketType = 'tab_' + this.id;
-        console.log('Connecting to tab_' + this.socketType);
+        console.log('Connecting to ' + this.socketType);
         this.socket.on(this.socketType, this.#onSerialPipeReceivedData.bind(this));
         this.socket.on('disconnect_request', this.#onSerialPipeDisconnectRequest.bind(this));
     }
