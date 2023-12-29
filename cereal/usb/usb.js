@@ -1,6 +1,6 @@
 /* TODO: timestamp how will u update the config ?  */
 
-import { attachDropdownListener } from '../utils.js';
+import { attachDropdownListener, toggleDropdown } from '../utils.js';
 import { SerialPort } from './serialPort.js';
 
 let tabSerialPorts = {
@@ -38,6 +38,14 @@ export function attachUsbEventListenersButton() {
 
     const toggleSideBarButton = document.getElementById('toggleSidebar');
     toggleSideBarButton?.addEventListener('click', toggleSideBar);
+
+    window, onbeforeunload = function () {
+        if (tabSerialPorts['tab1']) {
+            console.log("User is leaving the page");
+            tabSerialPorts['tab1'].sendUserDeparture();
+            tabSerialPorts['tab1'].destroy();
+        }
+    }
 
     setupInputHandlers();
 
@@ -93,6 +101,7 @@ function updateDropdownPort(ports) {
                 tabSerialPorts['tab1'].getID();
             }
             console.log('Current state of tab1:', tabSerialPorts['tab1']);
+            toggleDropdown('dropdownUSB');
 
         });
 
@@ -119,6 +128,7 @@ function updateBaudRate() {
 
             tabSerialPorts['tab1']?.changeBaudrate(baudRate);
             console.log('Baud rate updated in tab1:', tabSerialPorts['tab1']);
+            toggleDropdown('dropdownBaud');
         });
 
         baudRateDropdown.appendChild(listItem);
@@ -153,6 +163,7 @@ function updateLineEnding() {
             // Assuming tab1 is always the current tab
             tabSerialPorts['tab1']?.setEndline(symbol);
             console.log('Line ending updated in tab1:', tabSerialPorts['tab1']);
+            toggleDropdown('dropdownLineEnd');
         });
 
         lineEndingDropdown.appendChild(listItem);

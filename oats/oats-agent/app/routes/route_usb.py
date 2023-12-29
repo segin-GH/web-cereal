@@ -1,7 +1,7 @@
-from app import socketio
 from flask import Blueprint, jsonify, request
 from app.services.usb.oats_usb import oats_usb
 from app.utils.logger_conf import setup_logger
+import json
 
 logger = setup_logger(__name__)
 
@@ -44,17 +44,20 @@ def usb_disconnect():
 
 
 @bp.route('/user-departure', methods=['POST'])
-def handle_user_departure():
+def user_departure():
+    data_bytes = request.get_data()
+    if not data_bytes:
+        return jsonify({"error": "No data received"}), 400
+
     try:
-        # Extract the data sent from the client
-        data = request.get_json()
-        logger.info(f'Received user departure: ' + str(data))
-        user_id = data['userId']
+        request_data = json.loads(data_bytes.decode('utf-8'))
+    except json.JSONDecodeError:
+        return jsonify({"error": "Invalid JSON data"}), 400
 
-        logger.info(f'User with ID {user_id} is departing')
-
-        return jsonify({'message': 'User departure handled successfully'})
-
+    try:
+        response_data, conf_id = oats_usb.process_departure_request(
+            request_data)
+        logger.info(f"User departure for id: {conf_id}")
+        return jsonify(response_data), 200
     except Exception as e:
-        logger.error(f'Error handling user departure: {e}', exc_info=True)
-        return jsonify({'error': str(e)}), 500
+        return jsonify({"error": str(e)}), 500

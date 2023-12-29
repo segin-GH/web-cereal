@@ -117,7 +117,7 @@ export class SerialPort {
             }
         });
         this.socketType = 'tab_' + this.id;
-        console.log('Connecting to tab_' + this.socketType);
+        console.log('Connecting to ' + this.socketType);
         this.socket.on(this.socketType, this.#onSerialPipeReceivedData.bind(this));
         this.socket.on('disconnect_request', this.#onSerialPipeDisconnectRequest.bind(this));
     }
@@ -135,6 +135,12 @@ export class SerialPort {
         alert("Lost Device " + this.port);
         this.socket.disconnect();
         this.socket = null;
+        sendUserDeparture();
+    }
+
+    sendUserDeparture() {
+        const data = JSON.stringify({ id: this.socketType });
+        navigator.sendBeacon(`${import.meta.env.VITE_FETCH_BASE_URL}/usb/user-departure`, data);
     }
 
     sendData(data) {
@@ -166,5 +172,4 @@ export class SerialPort {
         this.baudrate = configData.baudrate;
         this.endline = configData.endline;
     }
-
 }
