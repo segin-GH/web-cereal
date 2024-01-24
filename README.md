@@ -3,7 +3,7 @@
 
 ![Web Cereal Logo](https://github.com/segin-GH/web-cereal/assets/98380527/b0314f50-1c09-4c0d-90fc-e6041abff6bd)
 
-Web Cereal provides a fast and lightweight solution for managing your serial data over the web. Discover more on our [official website](https://segin.in).
+Web Cereal provides a fast and lightweight solution for managing your serial data over the web. Discover more on our [official website](https://web-cereal.segin.in).
 
 ## Getting Started
 
