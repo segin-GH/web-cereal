@@ -17,9 +17,8 @@ A light-weight Serial agent for web-cereal
 3. Unzip Oats
   ```bash
   unzip oats-agent.zip
-  ```
-  
-5. Run Oats.
+  ``` 
+4. Run Oats.
 ```
 ./oats-agent/oats-agent
 ```
