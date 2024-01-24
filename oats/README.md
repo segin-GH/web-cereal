@@ -14,8 +14,12 @@ A light-weight Serial agent for web-cereal
 ```bash
  wget "https://github.com/segin-GH/web-cereal/raw/main/oats/oats-agent/dist/oats-agent.zip"
 ```
+3. Unzip Oats
+  ```bash
+  unzip oats-agent.zip
+  ```
   
-3. Run Oats.
+5. Run Oats.
 ```
 ./oats-agent/oats-agent
 ```
