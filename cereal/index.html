@@ -1,53 +1,69 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="./style.css">
-  <title>Web Cereal</title>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./style.css">
+    <title>Web Cereal</title>
 
-</head>
+  </head>
 
-<body class="bg-clr-bg-sec ">
+  <body class="bg-clr-bg-sec ">
 
-  <!-- TODO fix: make the courser pointer when in nav -->
-  <main class="flex">
-    <nav>
-      <ul class="flex-col text-clr-text font-bold bg-clr-bg-prim w-12 h-[calc(100vh)]">
-        <li class="nav-item w-12 p-4 hover:bg-clr-prim active:border-2 active:border-clr-accent" data-page="./usb/usb">
-          <a href="#">
-            <img src="public/usb.svg" alt="usb" />
-          </a>
-        </li>
-        <li class="nav-item w-12 p-4 hover:bg-clr-prim active:border-2 active:border-clr-accent"
-          data-page="./wifi/wifi">
-          <a href="#">
-            <img src="public/wifi.svg" alt="wifi" />
-          </a>
-        </li>
-        <li class="nav-item w-12 p-4 hover:bg-clr-prim active:border-2 active:border-clr-accent" data-page="./ble/ble">
-          <a href="#">
-            <img src="public/ble.svg" alt="ble" />
-          </a>
-        </li>
-        <li class="nav-item w-12 p-4 hover:bg-clr-prim active:border-2 active:border-clr-accent"
-          data-page="./mqtt/mqtt">
-          <a href="#">
-            <img src="public/mqtt.svg" alt="mqtt" />
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <!-- TODO fix: make the courser pointer when in nav -->
+    <main class="flex">
+      <nav>
+        <ul class="flex flex-col text-clr-text font-bold bg-clr-bg-prim w-12 h-[calc(100vh)]">
+          <li class="nav-item w-12 p-4 hover:bg-clr-prim" data-page="./usb/usb">
+            <a href="#">
+              <img src="public/usb.svg" alt="usb" />
+            </a>
+          </li>
+          <li class="nav-item w-12 p-4 hover:bg-clr-prim" data-page="./ploter/ploter">
+            <a href="#">
+              <img src="public/plotter.svg" alt="usb" />
+            </a>
+          </li>
+          <li class="nav-item w-12 p-4 hover:bg-clr-prim" data-page="./wifi/wifi">
+            <a href="#">
+              <img src="public/wifi.svg" alt="wifi" />
+            </a>
+          </li>
+          <li class="nav-item w-12 p-4 hover:bg-clr-prim" data-page="./ble/ble">
+            <a href="#">
+              <img src="public/ble.svg" alt="ble" />
+            </a>
+          </li>
+          <li class="nav-item w-12 p-4 hover:bg-clr-prim" data-page="./mqtt/mqtt">
+            <a href="#">
+              <img src="public/mqtt.svg" alt="mqtt" />
+            </a>
+          </li>
+        </ul>
+      </nav>
 
-    <div id="content-area" class="bg-clr-bg-sec w-full">
-      <!-- Content loaded dynamically with AJAX will appear here -->
-    </div>
-  </main>
+      <script>
+      // Get all list items
+      const navItems = document.querySelectorAll('.nav-item');
+
+      // Add click event listener to each list item
+      navItems.forEach(item => {
+        item.addEventListener('click', function() {
+          navItems.forEach(el => el.classList.remove('bg-clr-prim'));
+          this.classList.add('bg-clr-prim');
+        });
+      });
+      </script>
+
+      <div id="content-area" class="bg-clr-bg-sec w-full">
+        <!-- Content loaded dynamically with AJAX will appear here -->
+      </div>
+    </main>
 
 
-  <script type="module" src="./script.js"></script>
-</body>
+    <script type="module" src="./script.js"></script>
+  </body>
 
 </html>
