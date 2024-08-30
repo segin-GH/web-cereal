@@ -1,15 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../style.css">
-    <title>USB-CEREAL</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../style.css">
+        <title>USB-CEREAL</title>
+    </head>
 
-<body class="w-auto">
-    <h1 class="text-clr-txt"> <i> USB-CEREAL COMING SOON </i> </h1>
+<body class="w-auto ">
+    <div class="flex h-screen bg-clr-thr">
+        <!-- Sidebar Menu -->
+        <aside class="m-2 mr-0 rounded-sm bg-clr-bg-thr text-clr-txt w-64 flex-shrink-0 p-4">
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex flex-col h-screen text-clr-txt text-xs w-auto flex-grow">
+            <div class="flex flex-grow overflow-hidden w-auto">
+                <div class="flex flex-col justify-between flex-grow h-full w-auto overflow-x-hidden">
+                    <!-- OUTPUT -->
+                    <div id="outputDiv"
+                        class="bg-clr-bg-thr m-2 p-2 rounded-sm overflow-y-scroll overflow-x-scroll w-auto flex-grow">
+                    </div>
+
+                    <!-- INPUT -->
+                    <div class="flex justify-between items-center">
+                        <!-- Input box and Send button container -->
+                        <div class="m-2 mt-0 relative flex w-full">
+                            <input id="inputBox" type="text" autocomplete="off"
+                                class="rounded-sm border-thin border-clr-prim bg-clr-bg-thr text-clr-txt p-2 h-[calc(45px-1px)] w-full focus:outline-none"
+                                placeholder="Enter Command">
+                            <!-- Send Button -->
+                            <button id="sendButton"
+                                class="absolute p-3 right-0 m-1 bg-clr-prim text-white font-bold text-sm rounded-sm  h-[calc(37px-1px)] w-10 hover:bg-clr-accent  flex items-center justify-center">
+                                <img src="../public/send.svg" alt="Send" width="24" height="24">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
     <script type="module" src="./usb.js"></script>
 </body>
 

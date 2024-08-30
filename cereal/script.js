@@ -1,5 +1,4 @@
 // main.js
-import { attachUsbEventListeners, attachUsbEventListenersButton } from './usb/usb.js';
 
 function loadContent(page) {
   fetch(`${page}.html`)
@@ -13,8 +12,6 @@ function loadContent(page) {
       document.getElementById('content-area').innerHTML = html;
 
       if (page === './usb/usb') {
-        attachUsbEventListeners();
-        attachUsbEventListenersButton();
       }
     })
     .catch(error => {
