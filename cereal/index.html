@@ -1,69 +1,50 @@
 <!doctype html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./style.css">
-    <title>Web Cereal</title>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="node_modules/@xterm/xterm/css/xterm.css" />
+  <script src="node_modules/@xterm/xterm/lib/xterm.js"></script>
+  <title>Vite App</title>
+</head>
 
-  </head>
+<body class="w-auto ">
+  <div class="flex h-screen bg-bg1">
+    <!-- Sidebar Menu -->
+    <aside class=" m-2 mr-0 rounded-sm border-thin border-pri bg-bg3 text-txt w-64 flex-shrink-0 p-4">
+    </aside>
 
-  <body class="bg-clr-bg-sec ">
+    <!-- Main Content Area -->
+    <main class="flex flex-col h-screen text-txt text-xs w-auto flex-grow">
+      <div class="flex flex-grow overflow-hidden w-auto">
+        <div class="flex flex-col justify-between flex-grow h-full w-auto overflow-x-hidden">
+          <!-- OUTPUT -->
+          <div id="terminal" class=" w-full">
+          </div>
 
-    <!-- TODO fix: make the courser pointer when in nav -->
-    <main class="flex">
-      <nav>
-        <ul class="flex flex-col text-clr-text font-bold bg-clr-bg-prim w-12 h-[calc(100vh)]">
-          <li class="nav-item w-12 p-4 hover:bg-clr-prim" data-page="./usb/usb">
-            <a href="#">
-              <img src="public/usb.svg" alt="usb" />
-            </a>
-          </li>
-          <li class="nav-item w-12 p-4 hover:bg-clr-prim" data-page="./plotter/plotter">
-            <a href="#">
-              <img src="public/plotter.svg" alt="usb" />
-            </a>
-          </li>
-          <li class="nav-item w-12 p-4 hover:bg-clr-prim" data-page="./wifi/wifi">
-            <a href="#">
-              <img src="public/wifi.svg" alt="wifi" />
-            </a>
-          </li>
-          <li class="nav-item w-12 p-4 hover:bg-clr-prim" data-page="./ble/ble">
-            <a href="#">
-              <img src="public/ble.svg" alt="ble" />
-            </a>
-          </li>
-          <li class="nav-item w-12 p-4 hover:bg-clr-prim" data-page="./mqtt/mqtt">
-            <a href="#">
-              <img src="public/mqtt.svg" alt="mqtt" />
-            </a>
-          </li>
-        </ul>
-      </nav>
-
-      <script>
-      // Get all list items
-      const navItems = document.querySelectorAll('.nav-item');
-
-      // Add click event listener to each list item
-      navItems.forEach(item => {
-        item.addEventListener('click', function() {
-          navItems.forEach(el => el.classList.remove('bg-clr-prim'));
-          this.classList.add('bg-clr-prim');
-        });
-      });
-      </script>
-
-      <div id="content-area" class="bg-clr-bg-sec w-full">
-        <!-- Content loaded dynamically with AJAX will appear here -->
+          <!-- INPUT -->
+          <div class="flex justify-between items-center">
+            <!-- Input box and Send button container -->
+            <div class="m-2 mt-0 relative flex w-full">
+              <input id="inputBox" type="text" autocomplete="off"
+                class="rounded-sm border-thin border-pri bg-bg3 text-txt p-2 h-[calc(45px-1px)] w-full focus:outline-none"
+                placeholder="Enter Command">
+              <!-- Send Button -->
+              <button id="sendButton"
+                class="absolute p-3 right-0 m-1 bg-pri text-white font-bold text-sm rounded-sm  h-[calc(37px-1px)] w-10 hover:bg-acc  flex items-center justify-center">
+                <img src="../public/send.svg" alt="Send" width="24" height="24">
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
+  </div>
 
-
-    <script type="module" src="./script.js"></script>
-  </body>
+  <script type="module" src="/main.js"></script>
+</body>
 
 </html>

@@ -1,16 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./index.html","./usb/usb.html"],
+  content: ["./index.html"],
   theme: {
     extend: {
       colors: {
-        'clr-txt': '#c7c2c2',
-        'clr-bg-prim': '#181818',
-        'clr-bg-sec': '#171717',
-        'clr-bg-thr': '#1c1c1e',
-        'clr-prim': '#2a292a',
-        'clr-sec': '#020617',
-        'clr-accent': '#6366f1',
+        'txt': '#c7c2c2',
+        'bg1': '#181818',
+        'bg2': '#171717',
+        'bg3': '#1c1c1e',
+        'pri': '#2a292a',
+        'sec': '#020617',
+        'acc': '#6366f1',
       },
       borderWidth: {
         'thin': '0.1px',
@@ -21,4 +21,3 @@ export default {
   plugins: [
   ]
 }
-
