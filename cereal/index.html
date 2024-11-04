@@ -40,28 +40,27 @@
     </nav>
 
     <div id="content-area" class="flex bg-green-100 w-full">
-      <div id="control-center" class=" flex flex-col bg-bg1 w-1/4 text-txt">
-        <div class="flex flex-row">
-          <button id="butt-term" class="basis-1/2 m-1 mr-0 p-1 rounded-sm bg-bg3 hover:bg-pri">
+      <div id="control-center" class="flex flex-col bg-bg1 w-1/5 text-txt">
+        <div class="flex flex-row text-xs">
+          <button id="butt-term" class="basis-1/2 m-1 mr-0 p-1 rounded-sm bg-acc">
             Term
           </button>
 
-          <button id="butt-term" class="basis-1/2 m-1 p-1 rounded-sm bg-bg3 hover:bg-pri">
+          <button id="butt-plot" class="basis-1/2 m-1 p-1 rounded-sm bg-bg3">
             Plot
           </button>
         </div>
 
-        <div id="ctrl-tabs" class="grow m-1 mt-0 rounded-sm bg-bg2"> </div>
+        <div id="plot-ctrl" class="hidden grow m-1 mt-0 rounded-sm bg-slate-800"> plot</div>
+        <div id="term-ctrl" class="grow m-1 mt-0 rounded-sm bg-slate-900"> term </div>
       </div>
 
-      <div id="visual" class="text-black bg-zinc-500  w-full">
-        visual
+      <div id="terminal" class="text-black bg-zinc-500 w-full">
       </div>
     </div>
   </main>
 
-  <script type=" module" src="./script.js">
-        </script>
+  <script type="module" src="./main.js"></script>
 </body>
 
 </html>

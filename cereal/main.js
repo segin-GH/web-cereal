@@ -1,31 +1,33 @@
+import { initializeTerminal } from './terminalSetup.js';
 
-import { Terminal } from "@xterm/xterm";
-import { FitAddon } from "@xterm/addon-fit";
+// initializeTerminal()
 
-const term = new Terminal({
-  scrollback: 10_000,
-  fontWeight: 100,
-  fontSize: 20,
-  fontFamily: "Ubuntu Mono",
-  theme: {
-    background: "#1c1c1e",
-  },
-});
+export function toggleControlCenterType(type) {
+  if (type === 1) {
+    console.log("term selected");
+    document.getElementById('plot-ctrl').classList.add('hidden');
+    document.getElementById('term-ctrl').classList.remove('hidden');
 
-const fitAddon = new FitAddon();
-term.loadAddon(fitAddon);
+    // Change button colors
+    document.getElementById('butt-term').classList.remove('bg-bg3');
+    document.getElementById('butt-term').classList.add('bg-acc');
+    document.getElementById('butt-plot').classList.remove('bg-acc');
+    document.getElementById('butt-plot').classList.add('bg-bg3');
+  } else {
+    console.log("plot selected");
+    document.getElementById('plot-ctrl').classList.remove('hidden');
+    document.getElementById('term-ctrl').classList.add('hidden');
 
-document.addEventListener("DOMContentLoaded", async () => {
-  const terminalElement = document.getElementById("terminal");
-  if (terminalElement) {
-    term.open(terminalElement);
-    fitAddon.fit();
-
-    window.addEventListener("resize", () => {
-      fitAddon.fit();
-    });
+    // Change button colors
+    document.getElementById('butt-plot').classList.remove('bg-bg3');
+    document.getElementById('butt-plot').classList.add('bg-acc');
+    document.getElementById('butt-term').classList.remove('bg-acc');
+    document.getElementById('butt-term').classList.add('bg-bg3');
   }
-});
+}
 
-term.open(document.getElementById("terminal"));
-term.writeln("Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ");
+// Wait until the DOM is fully loaded before attaching event listeners
+document.addEventListener("DOMContentLoaded", () => {
+  document.getElementById("butt-term").addEventListener("click", () => toggleControlCenterType(1));
+  document.getElementById("butt-plot").addEventListener("click", () => toggleControlCenterType(2));
+});
