@@ -1,10 +1,9 @@
 import { initializeTerminal } from './terminalSetup.js';
 
-// initializeTerminal()
+initializeTerminal()
 
 export function toggleControlCenterType(type) {
   if (type === 1) {
-    console.log("term selected");
     document.getElementById('plot-ctrl').classList.add('hidden');
     document.getElementById('term-ctrl').classList.remove('hidden');
 
@@ -14,7 +13,6 @@ export function toggleControlCenterType(type) {
     document.getElementById('butt-plot').classList.remove('bg-acc');
     document.getElementById('butt-plot').classList.add('bg-bg3');
   } else {
-    console.log("plot selected");
     document.getElementById('plot-ctrl').classList.remove('hidden');
     document.getElementById('term-ctrl').classList.add('hidden');
 
