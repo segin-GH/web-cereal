@@ -41,7 +41,7 @@
 
     <div id="content-area" class="flex bg-green-100 w-full">
       <div id="control-center" class="flex flex-col flex-initial bg-bg1 w-1/5 text-txt">
-        <div class="flex flex-row flex-initial text-xs">
+        <div class="flex flex-row flex-initial p-1 text-xs rounded-sm border border-pri">
           <button id="butt-term" class="basis-1/2 m-1 mr-0 p-1 rounded-sm bg-acc">
             Term
           </button>
@@ -51,8 +51,23 @@
           </button>
         </div>
 
-        <div id="plot-ctrl" class="hidden grow m-1 mt-0 rounded-sm bg-slate-800"> plot</div>
-        <div id="term-ctrl" class="grow m-1 mt-0 rounded-sm bg-slate-900"> term </div>
+        <div id="term-ctrl" class=" grow  mt-1 p-1 rounded-sm text-xs border border-pri">
+          <button id="dropDownSerialPort" data-dropdown-toggle="dropdownUSB"
+            class="w-full rounded-sm px-2 py-1.5 text-center inline-flex items-center justify-between bg-bg3"
+            type="button">
+            <span id="dropdownUSBPortText">Port</span>
+            <svg class="ml-2 w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+              viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="m1 1 4 4 4-4" />
+            </svg>
+          </button>
+
+        </div>
+
+        <div id="plot-ctrl" class="hidden grow m-1 mt-0 rounded-sm bg-slate-800">
+          plot
+        </div>
       </div>
 
       <div id="terminal" class="text-black bg-zinc-500 w-full">

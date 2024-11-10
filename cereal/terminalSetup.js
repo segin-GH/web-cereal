@@ -5,7 +5,7 @@ export function initializeTerminal() {
   const term = new Terminal({
     scrollback: 10_000,
     fontWeight: 100,
-    fontSize: 20,
+    fontSize: 16,
     fontFamily: "Ubuntu Mono",
     theme: {
       background: "#1c1c1e",
